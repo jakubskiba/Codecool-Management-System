@@ -1,5 +1,4 @@
 from datetime import date
-import views.assignment_view
 
 
 class Assignment:
