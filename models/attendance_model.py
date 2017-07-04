@@ -1,4 +1,4 @@
-from student_model import Student
+from models.student_model import Student
 from datetime import datetime
 
 
