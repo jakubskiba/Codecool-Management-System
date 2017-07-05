@@ -1,4 +1,6 @@
 class User():
+
+    last_id = 0
     
     def __init__(self, name, surname, login, password, email, phone, id_):
         '''
@@ -23,3 +25,7 @@ class User():
         self.email = email
         self.phone = phone
         self.id_ = id_
+
+        self.__class__.last_id += 1
+
+    
