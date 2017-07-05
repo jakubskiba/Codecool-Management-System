@@ -14,6 +14,8 @@ class User():
         Returns:
             None
         '''
+
+        # to condition initializing instance with is_login_unique function 
         self.name = name
         self.surname = surname
         self.login = login
