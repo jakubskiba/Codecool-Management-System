@@ -2,7 +2,7 @@ class User():
     
     def __init__(self, name, surname, login, password, email, phone, id_):
         '''
-        sets User objects
+        Abstract class, sets User objects, to inherit by Mentor, Administrator, Student, Manager
         Args:
             name: str
             surname: str
