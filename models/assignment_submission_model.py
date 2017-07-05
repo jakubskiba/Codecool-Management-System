@@ -16,7 +16,7 @@ class AssignmentSubmission():
             assignment: Assignment object
             grade: int
         '''
-        if type(student) == Student and type(date_of_submission) == date and 
+        if type(student) == Student and type(date_of_submission) == datetime and 
            type(content) == str and type(assignment) == Assignment:
 
             self.student = student
