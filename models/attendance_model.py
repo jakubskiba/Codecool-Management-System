@@ -30,6 +30,6 @@ class Attendance():
         self.attendance_state = float(attendance_state)
 
         if not isinstance(student, Student):
-            raise TypeError(student + ' is not Student object')
+            raise TypeError
         else:
             self.student = student
