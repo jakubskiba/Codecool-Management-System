@@ -6,7 +6,7 @@ from models.mentor_model import Mentor
 from models.student_model import Student
 
 from models.assignment_model import Assignment
-from models.assignment_submission import AssignmentSubmission
+from models.assignment_submission_model import AssignmentSubmission
 from models.attendance_model import Attendance
 from views.school_view import *
 
@@ -25,17 +25,17 @@ def loading_users(codecool):
             user = files_dict[filename](line[0], line[1], line[2], line[3], line[4], line[5], int(line[6]))
 
             if filename == 'csv/manager.csv':
-                codecool.manager_list.append(user)
+                codecool.managers_list.append(user)
             elif filename == 'csv/administrator.csv':
-                codecool.administrator_list.append(user)
+                codecool.administrators_list.append(user)
             elif filename == 'csv/mentor.csv':
-                codecool.mentor_list.append(user)
+                codecool.mentors_list.append(user)
             elif filename == 'csv/student.csv':
-                codecool.student_list.append(user)
+                codecool.students_list.append(user)
 
 
 def loading_assignments(codecool):
-    
+    pass
 
 
 def start_controller():
