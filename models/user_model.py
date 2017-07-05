@@ -10,7 +10,7 @@ class User():
             password: str
             email: str
             phone: str
-            id: int
+            id_: int
         Returns:
             None
         '''
