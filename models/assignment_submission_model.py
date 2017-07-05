@@ -5,7 +5,7 @@ from datetime import datetime
 
 class AssignmentSubmission():
 
-    def __init__(student, date_of_submission, content, assignment):
+    def __init__(self, student, date_of_submission, content, assignment):
 
         '''
         initialize AssignmentSubmission object
