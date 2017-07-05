@@ -11,13 +11,13 @@ class Student(User):
         email (str)
         phone (str)
         id_ (str)
-        assignment_submisions (list)
+        assignment_submissions (list)
         attendance_list (list)
     """
 
     def __init__(self, name, surname, login, password, email, phone, id_):
         super().__init__(name, surname, login, password, email, phone, id_)
 
-        self.assignment_submisions = []
+        self.assignment_submissions = []
         self.attendance_list = []
 
