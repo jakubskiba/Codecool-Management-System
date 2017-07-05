@@ -19,4 +19,9 @@ def print_submission(sub):
     print('Assignment id: {}/{}'.format(sub.assignment.assignment_id, sub.assignment.deadline))
     print('{}: {} / {}'.format(sub.student.name, sub.content, sub.date_of_submission))
     print(is_on_time(sub).rjust(30))
-    print('Grade: {}'.format(grades(sub)).rjust(30))
+    print('Grade: {}'.format(grades(sub)))
+
+
+def ask_for_grade(sub):
+    # available for mentor, returns int
+    return int(input('How you mark this submission? '))
