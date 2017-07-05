@@ -12,6 +12,13 @@ from models.attendance_model import Attendance
 from views.school_view import *
 
 
+def get_user_by_id(codecool, id_):
+    users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
+    for user in users:
+        if user.id_ == id_:
+            return user
+
+
 def load_users(codecool):
     files_dict = {'csv/manager.csv': Manager, 'csv/administrator.csv': Administrator,
                   'csv/mentor.csv': Mentor, 'csv/student.csv': Student}
@@ -49,8 +56,30 @@ def load_assignments(codecool):
         codecool.assignments_list.append(assignment)
 
 
+def load_attendance(codecool):
+    with open('csv/attendance.csv') as datafile:
+        content = datafile.readlines()
+
+    content = [line.strip() for line in content]
+    content = [line.split('|') for line in content]
+    content = [[line[0].split('-'), float(line[1]), int(line[2])] for line in content]
+
+    for line in content:
+        date = datetime(int(line[0][0]), int(line[0][1]), int(line[0][2]))
+        student = get_user_by_id(codecool, line[2])
+
+        attendance = Attendance(date, line[1], student)
+        student.attendance_list.append(attendance)
+
+
+def load_assignment_submission(codecool):
+    pass
+
+
 def start_controller():
     intro()
     codecool = School()
     load_users(codecool)
     load_assignments(codecool)
+    load_attendance(codecool)
+    load_assignment_submission(codecool)
