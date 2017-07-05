@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 
 class Assignment:
@@ -8,14 +8,14 @@ class Assignment:
 
         Args:
             content (str): description of the assignment
-            deadline (Date): object of Date class
+            deadline (Datetime): object of Datetime class
             assignment_id (int): order number of the assignment
 
         Returns:
             None
         """
 
-        if type(content) is str and type(deadline) is date and type(assignment_id) is int:
+        if type(content) is str and type(deadline) is datetime and type(assignment_id) is int:
             self.content = content
             self.deadline = deadline
             self.assignment_id = assignment_id
@@ -24,7 +24,7 @@ class Assignment:
 
 
 def main():
-    c = Assignment('pikuś', date(2017, 4, 12), 5)
+    c = Assignment('pikuś', datetime(2017, 4, 12), 5)
     print(c)
 
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from models.school_model import School
 from models.user_model import User
 from models.manager_model import Manager
@@ -11,7 +12,7 @@ from models.attendance_model import Attendance
 from views.school_view import *
 
 
-def loading_users(codecool):
+def load_users(codecool):
     files_dict = {'csv/manager.csv': Manager, 'csv/administrator.csv': Administrator,
                   'csv/mentor.csv': Mentor, 'csv/student.csv': Student}
     for filename in files_dict:
@@ -34,12 +35,22 @@ def loading_users(codecool):
                 codecool.students_list.append(user)
 
 
-def loading_assignments(codecool):
-    pass
+def load_assignments(codecool):
+    with open('csv/assignment.csv') as datafile:
+        content = datafile.readlines()
+
+    content = [line.strip() for line in content]
+    content = [line.split('|') for line in content]
+    content = [[line[0], line[1].split('-'), line[2]] for line in content]
+
+    for line in content:
+        deadline = datetime(int(line[1][0]), int(line[1][1]), int(line[1][2]))
+        assignment = Assignment(line[0], deadline, int(line[2]))
+        codecool.assignments_list.append(assignment)
 
 
 def start_controller():
     intro()
     codecool = School()
-    loading_users(codecool)
-    loading_assignments(codecool)
+    load_users(codecool)
+    load_assignments(codecool)
