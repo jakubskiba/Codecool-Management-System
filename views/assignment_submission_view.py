@@ -23,5 +23,5 @@ def print_submission(sub):
 
 
 def ask_for_grade(sub):
-    # available for mentor, returns int
+    # available for mentor controler, returns int
     return int(input('How you mark this submission? '))
