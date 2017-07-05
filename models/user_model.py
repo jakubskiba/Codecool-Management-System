@@ -1,8 +1,10 @@
 class User():
+
+    last_id = 0
     
     def __init__(self, name, surname, login, password, email, phone, id_):
         '''
-        sets User objects
+        Abstract class, sets User objects, to inherit by Mentor, Administrator, Student, Manager
         Args:
             name: str
             surname: str
@@ -14,6 +16,8 @@ class User():
         Returns:
             None
         '''
+
+        # to condition initializing instance with is_login_unique function 
         self.name = name
         self.surname = surname
         self.login = login
@@ -21,3 +25,7 @@ class User():
         self.email = email
         self.phone = phone
         self.id_ = id_
+
+        self.__class__.last_id += 1
+
+    
