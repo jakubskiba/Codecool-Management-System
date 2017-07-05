@@ -15,3 +15,25 @@ def print_assignment_details(assignment):
     print('Deadline:', assignment.deadline)
     print('Assignment:', assignment.content)
     print(ornament)
+
+
+def print_title():
+    ornament = 30 * '='
+    print(ornament)
+    print("You are adding new assignment.")
+
+
+def get_content():
+    return input("Input assignment content: ")
+
+
+def get_year():
+    return input("Input deadline year: ")
+
+
+def get_month():
+    return input("Input deadline month: ")
+
+
+def get_day():
+    return input("Input deadline day: ")
