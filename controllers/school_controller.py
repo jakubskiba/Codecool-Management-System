@@ -10,6 +10,10 @@ from models.assignment_model import Assignment
 from models.assignment_submission_model import AssignmentSubmission
 from models.attendance_model import Attendance
 from views.school_view import *
+import controllers.manager_controller
+import controllers.administrator_controller
+import controllers.mentor_controller
+import controllers.student_controller
 
 
 def get_user_by_id(codecool, id_):
@@ -99,10 +103,38 @@ def load_assignment_submission(codecool):
         student.assignment_submissions.append(assignment_submission)
 
 
-def start_controller():
-    intro()
-    codecool = School()
+def load_files(codecool):
     load_users(codecool)
     load_assignments(codecool)
     load_attendance(codecool)
     load_assignment_submission(codecool)
+
+
+def log_in(codecool):
+    login = get_login()
+    password = get_password()
+
+    users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
+    for user in users:
+        if user.login == login and user.password == password:
+            return user
+
+
+def start_controller():
+    intro()
+    codecool = School()
+    load_files(codecool)
+
+    user = log_in(codecool)
+    if type(user) is Manager:
+        controllers.manager_controller.start_controller(codecool, user)
+    elif type(user) is Administrator:
+        controllers.administrator_controller.start_controller(codecool, user)
+    elif type(user) is Administrator:
+        controllers.administrator_controller.start_controller(codecool, user)
+    elif type(user) is Administrator:
+        controllers.administrator_controller.start_controller(codecool, user)
+    else:
+        print('There is no such user in system!')
+
+    print_exit_message()
