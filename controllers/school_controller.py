@@ -19,6 +19,12 @@ def get_user_by_id(codecool, id_):
             return user
 
 
+def get_assignment_by_id(codecool, id_):
+    for assignment in codecool.assignments_list:
+        if assignment.assignment_id == id_:
+            return assignment
+
+
 def load_users(codecool):
     files_dict = {'csv/manager.csv': Manager, 'csv/administrator.csv': Administrator,
                   'csv/mentor.csv': Mentor, 'csv/student.csv': Student}
@@ -73,7 +79,24 @@ def load_attendance(codecool):
 
 
 def load_assignment_submission(codecool):
-    pass
+    with open('csv/assignment_submission.csv') as datafile:
+        content = datafile.readlines()
+
+    content = [line.strip() for line in content]
+    content = [line.split('|') for line in content]
+
+    for line in content:
+        student = get_user_by_id(codecool, int(line[0]))
+
+        submission_date = line[1].split('-')
+        submission_date = datetime(int(submission_date[0]), int(submission_date[1]), int(submission_date[2]))
+
+        assignment = get_assignment_by_id(codecool, int(line[3]))
+
+        assignment_submission = AssignmentSubmission(student, submission_date, line[2], assignment)
+        assignment_submission.grade = int(line[4])
+
+        student.assignment_submissions.append(assignment_submission)
 
 
 def start_controller():

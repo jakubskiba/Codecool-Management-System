@@ -25,7 +25,7 @@ class Assignment:
 
 def main():
     c = Assignment('pikuś', datetime(2017, 4, 12), 5)
-    print(c)
+    print(type(c) == Assignment)
 
 
 if __name__ == '__main__':
