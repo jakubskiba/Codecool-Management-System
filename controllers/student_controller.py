@@ -4,6 +4,17 @@ from datetime import datetime
 
 
 def start_controller(school, student):
+    """
+    Switches between options
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        student (obj): Student object
+
+    Returns:
+        None
+    """
+
     choice = ''
     while choice != '0':
         print_student_menu()
@@ -18,14 +29,44 @@ def start_controller(school, student):
 
 
 def get_assignment_submissions(student):
+    """
+    Prints all assignment submissions
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     print_all_submissions(student.assignment_submissions)
 
 
 def list_assignments(school):
+    """
+    Prints all assignments
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     print_all_assignments(school.assignments_list)
 
 
 def submit_assignment(school, student):
+    """
+    Appends assignment submission list by new create objest
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        student (obj): Student object
+
+    Returns:
+        None
+    """
     assignments_ids = [str(ass.assignment_id) for ass in school.assignments_list]
 
     chosen_assignment_id = ''

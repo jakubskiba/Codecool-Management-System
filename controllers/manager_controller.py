@@ -5,6 +5,17 @@ from models.user_model import User
 
 
 def start_controller(school, manager):
+    """
+    Switches between options
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        manager (obj): Manager object
+
+    Returns:
+        None
+    """
+
     choice = ''
     while choice != '0':
         print_manager_menu()
@@ -30,6 +41,17 @@ def start_controller(school, manager):
 
 
 def get_user(school, users_list):
+    """
+    Ask user for id
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        user_list (list): in this list user will be searched
+
+    Returns:
+        User object
+    """
+
     possible_ids = [str(user.id_) for user in users_list]
     chosen_user_id = ''
     while chosen_user_id not in possible_ids:
@@ -45,19 +67,55 @@ def get_user(school, users_list):
 
 
 def get_mentor(school):
+    """
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        Mentor object
+    """
+
     return get_user(school, school.mentors_list)
 
 
 def get_student(school):
+    """
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        Student object
+    """
+
     return get_user(school, school.students_list)
 
 
 def view_mentor_details(school):
+    """
+    Ask for mentor id, then print mentor details
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     chosen_mentor = get_mentor(school)
     print_mentor(chosen_mentor)
 
 
 def add_mentor(school):
+    """
+    Appends mentors_list in school object by new created mentor object
+    Prints error message if login is not unique
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     mentor_data = get_new_mentor_data()
 
     name = mentor_data[0]
@@ -80,10 +138,30 @@ def add_mentor(school):
 
 
 def remove_mentor(school):
+    """
+    Ask for mentor id then, deletes mentor from mentors_list in school object
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     mentor_to_remove = get_mentor(school)
     school.mentors_list.remove(mentor_to_remove)
 
 
 def view_student_details(school):
+    """
+    Ask for mentor id, then print mentor details
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     chosen_student = get_student(school)
     print_student(chosen_student)

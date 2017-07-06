@@ -3,12 +3,29 @@ from views.user_view import *
 
 
 def start_controller(user):
+    """
+    Calls updater function
+
+    Args:
+        user (obj): User object
+
+    Returns:
+        None
+    """
+
     display_update_choice(user)
     which_data = get_data_number()
     updater(user, which_data)
 
 
 def updater(user, which_data):
+    """
+    Updates data in user object
+
+    Args:
+        user (obj): User object
+        which_data (str)
+    """
 
     data_dict = {1: 'email', 2: 'login', 3: 'name', 4: 'password', 5: 'phone', 6: 'surname'}
 

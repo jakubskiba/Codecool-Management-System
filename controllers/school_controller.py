@@ -17,6 +17,17 @@ import controllers.student_controller
 
 
 def get_user_by_id(codecool, id_):
+    """
+    Searches user by id
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+        id_ (int)
+
+    Returns:
+        User (obj)
+    """
+
     users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
     for user in users:
         if user.id_ == id_:
@@ -24,12 +35,33 @@ def get_user_by_id(codecool, id_):
 
 
 def get_assignment_by_id(codecool, id_):
+    """
+    Searches assignment by id
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+        id_ (int)
+
+    Returns:
+        Assignment (obj)
+    """
+
     for assignment in codecool.assignments_list:
         if assignment.assignment_id == id_:
             return assignment
 
 
 def load_users(codecool):
+    """
+    Reads data from csv file to user classes
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     files_dict = {'csv/manager.csv': Manager, 'csv/administrator.csv': Administrator,
                   'csv/mentor.csv': Mentor, 'csv/student.csv': Student}
     for filename in files_dict:
@@ -53,6 +85,16 @@ def load_users(codecool):
 
 
 def load_assignments(codecool):
+    """
+    Reads data from csv file to assignment classes
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     with open('csv/assignment.csv') as datafile:
         content = datafile.readlines()
 
@@ -67,6 +109,16 @@ def load_assignments(codecool):
 
 
 def load_attendance(codecool):
+    """
+    Reads data from csv file to attendance classes
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     with open('csv/attendance.csv') as datafile:
         content = datafile.readlines()
 
@@ -83,6 +135,16 @@ def load_attendance(codecool):
 
 
 def load_assignment_submission(codecool):
+    """
+    Reads data from csv file to assignment submission classes
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     with open('csv/assignment_submission.csv') as datafile:
         content = datafile.readlines()
 
@@ -104,6 +166,16 @@ def load_assignment_submission(codecool):
 
 
 def get_last_user_id(codecool):
+    """
+    Searches for user with highest id
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        id_ (int)
+    """
+
     last_id = 0
     users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
     for user in users:
@@ -114,6 +186,16 @@ def get_last_user_id(codecool):
 
 
 def get_last_assignment_id(codecool):
+    """
+    Searches for assignment with highest id
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Return:
+        id_ (int)
+    """
+
     last_id = 0
     for assignment in codecool.assignments_list:
         if assignment.assignment_id > last_id:
@@ -123,6 +205,15 @@ def get_last_assignment_id(codecool):
 
 
 def load_files(codecool):
+    """
+    Fill school object lists with data from csv
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
     load_users(codecool)
     load_assignments(codecool)
     load_attendance(codecool)
@@ -132,6 +223,16 @@ def load_files(codecool):
 
 
 def log_in(codecool):
+    """
+    Checks is login and password belong to one same user
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        User (obj)
+    """
+
     login = get_login()
     password = get_password()
 
@@ -142,13 +243,24 @@ def log_in(codecool):
 
 
 def save_users(codecool):
+    """
+    Saves data from each user object to csv file
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     files_dict = {'csv/manager.csv': codecool.managers_list, 'csv/administrator.csv': codecool.administrators_list,
                   'csv/mentor.csv': codecool.mentors_list, 'csv/student.csv': codecool.students_list}
 
     for filename in files_dict:
         data_to_save = []
         for user in files_dict[filename]:
-            data_to_save.append([user.name, user.surname, user.login, user.password, user.email, user.phone, str(user.id_)])
+            data_to_save.append([user.name, user.surname, user.login,
+                                user.password, user.email, user.phone, str(user.id_)])
 
         data_to_save = ['|'.join(line) for line in data_to_save]
         data_to_save = '\n'.join(data_to_save)
@@ -157,6 +269,16 @@ def save_users(codecool):
 
 
 def save_assignments(codecool):
+    """
+    Saves data from each assignment object in assignments_list to csv file
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     data_to_save = []
     for assignment in codecool.assignments_list:
         deadline = [str(assignment.deadline.year), str(assignment.deadline.month), str(assignment.deadline.day)]
@@ -171,6 +293,16 @@ def save_assignments(codecool):
 
 
 def save_attendance(codecool):
+    """
+    Saves data from each attendance object in each student object to csv file
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     data_to_save = []
     for student in codecool.students_list:
         for attendance in student.attendance_list:
@@ -186,12 +318,24 @@ def save_attendance(codecool):
 
 
 def save_assignment_submission(codecool):
+    """
+    Saves data from each object in assignment stubmissions list to csv file
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     data_to_save = []
     for student in codecool.students_list:
         for submission in student.assignment_submissions:
-            date = [str(submission.date_of_submission.year), str(submission.date_of_submission.month), str(submission.date_of_submission.day)]
+            date = [str(submission.date_of_submission.year), 
+                    str(submission.date_of_submission.month), str(submission.date_of_submission.day)]
             date = '-'.join(date)
-            data_to_save.append([str(student.id_), date, submission.content, str(submission.assignment.assignment_id), str(submission.grade)])
+            data_to_save.append([str(student.id_), date, submission.content,
+                                str(submission.assignment.assignment_id), str(submission.grade)])
 
     data_to_save = ['|'.join(line) for line in data_to_save]
     data_to_save = '\n'.join(data_to_save)
@@ -201,6 +345,16 @@ def save_assignment_submission(codecool):
 
 
 def save_files(codecool):
+    """
+    Saves data to files
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     save_users(codecool)
     save_assignments(codecool)
     save_attendance(codecool)
@@ -208,6 +362,12 @@ def save_files(codecool):
 
 
 def start_controller():
+    """
+    Signs in user, then calls appropriate controller
+
+    Returns:
+        None
+    """
     intro()
     codecool = School()
     load_files(codecool)

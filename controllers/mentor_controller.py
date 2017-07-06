@@ -11,6 +11,17 @@ import controllers.user_controller
 
 
 def add_new_assignment(codecool):
+    """
+    Append assignments_list by new created assignment object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+
+    """
+
     print_add_assignment_title()
     content = get_assignment_content()
     year = get_assignment_year()
@@ -26,6 +37,20 @@ def add_new_assignment(codecool):
 
 
 def choose_student_by_id(id_, codecool):
+    """
+    Search for student with given id
+
+    Args:
+        id_ (int): student id
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        Student (obj)
+
+    Raises:
+        ValueError if student not found
+    """
+
     for student in codecool.students_list:
         if student.id_ == id_:
             return student
@@ -33,6 +58,16 @@ def choose_student_by_id(id_, codecool):
 
 
 def grade_assignment(codecool):
+    """
+    Changes grade attribute in assignment submission object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     print_students_list(codecool)
     student_id = views.ui.get_inputs([''], 'Choose student id')
 
@@ -58,6 +93,20 @@ def grade_assignment(codecool):
 
 
 def choose_submission_by_id(id_, student):
+    """
+    Finds assignment submissions by id
+
+    Args:
+        id_ (int): given id
+        student (obj): Student object
+
+    Returns:
+        AssignmentSubmissions (obj)
+
+    Raises:
+        ValueError if there is no such assignment submission in student object
+    """
+
     if int(id_) in range(1, len(student.assignment_submissions) + 1):
         return student.assignment_submissions[int(id_)-1]
     else:
@@ -65,6 +114,16 @@ def choose_submission_by_id(id_, student):
 
 
 def add_student(codecool):
+    """
+    Append student to students_list in codecool object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     student_data = get_new_student_data()
 
     name = student_data[0]
@@ -82,6 +141,17 @@ def add_student(codecool):
 
 
 def get_user(codecool, users_list):
+    """
+    Asks for user id
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+        users_list (list): list of users
+
+    Returns:
+        User (obj)
+    """
+
     possible_ids = [str(user.id_) for user in users_list]
     chosen_user_id = ''
     while chosen_user_id not in possible_ids:
@@ -97,20 +167,60 @@ def get_user(codecool, users_list):
 
 
 def get_student(codecool):
+    """
+    Returns student object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        Student (obj)
+    """
+
     return get_user(codecool, codecool.students_list)
 
 
 def remove_student(codecool):
+    """
+    Deletes student from student list
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Return:
+        None
+    """
+
     student_to_remove = get_student(codecool)
     codecool.students_list.remove(student_to_remove)
 
 
 def edit_student(codecool):
+    """
+    Changes student data
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Return:
+        None
+    """
     student_to_change = get_student(codecool)
     controllers.user_controller.start_controller(student_to_change)
 
 
 def start_controller(codecool, mentor):
+    """
+    Switches between options
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+        mentor (obj): Mentor object
+
+    Returns:
+        None
+    """
+
     choice = ''
     while choice != '0':
         print_mentor_menu()
