@@ -26,6 +26,6 @@ class User():
         self.phone = phone
         self.id_ = id_
 
-        self.__class__.last_id += 1
+        User.last_id += 1
 
     
