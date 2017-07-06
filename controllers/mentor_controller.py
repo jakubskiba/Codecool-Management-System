@@ -5,6 +5,7 @@ from views.assignment_view import *
 from models.assignment_model import Assignment
 from datetime import datetime
 import views.ui
+from views.assignment_submissions_view import *
 
 
 def add_new_assignment(codecool):
@@ -25,11 +26,39 @@ def add_new_assignment(codecool):
 def grade_assignment(codecool):
     print_students_list(codecool)
     student_id = views.ui.get_inputs([''], 'Choose student id')
-    print_all_assignments(codecool)
-    id_ = input('Choose assignment id: ')
-    assignment = get_assignment_by_id(codecool, id_)
-    if assignment is not None:
-        grade =
+    
+    try:
+        student = choose_student_by_id(student_id, codecool)
+        for subm in student.assignment_submissions:
+            assignment_submissions_view.print_submission(subm)
+######################################################################
+        id_ = input('Which assignment to grade?')    
+        
+        try:
+            submission_to_mark = choose_submission_by_id(id_, student)
+            ################################################################################3
+            submission_to_mark.grade = int(input('What is your mark?'))
+
+        except ValueError:
+            views.ui.print_error_message('There is no such submission')
+
+    except ValueError:
+        views.ui.print_error_message('There is no such student')
+
+
+def choose_student_by_id(id_, codecool):
+    for student in codecool.students_list:
+        if student.id_ == id_:
+            return student
+    raise ValueError
+
+
+def choose_submission_by_id(id_, student):
+    for subm in student.assignment_submissions:
+        if subm.id_ == id_:
+            return subm
+    return ValueError
+
 
 
 def start_controller(codecool, mentor):

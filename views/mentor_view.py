@@ -52,3 +52,8 @@ def print_all_assignments(codecool):
     for assignment in codecool.assignments_list:
         print_assignment_details(assignment)
         print()
+
+
+def get_input(msg):
+    a = input(msg)
+    return a
