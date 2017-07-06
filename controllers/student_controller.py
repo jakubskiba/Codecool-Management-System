@@ -22,7 +22,7 @@ def get_assignment_submissions(student):
 
 
 def list_assignments(school):
-    pass
+    print_all_assignments(school.assignments_list)
 
 
 def get_assignment_submissions(student):
