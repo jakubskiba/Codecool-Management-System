@@ -61,6 +61,10 @@ def get_new_student_data():
     return data
 
 
+def get_id():
+    return views.ui.get_inputs(['id:'], 'Provide id')[0]
+
+
 def get_input(msg):
     a = input(msg)
     return a

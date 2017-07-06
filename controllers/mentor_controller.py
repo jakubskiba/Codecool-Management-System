@@ -78,9 +78,28 @@ def add_student(codecool):
     codecool.students_list.append(new_student)
 
 
-def remove_mentor(school):
-    mentor_to_remove = get_mentor(school)
-    school.mentors_list.remove(mentor_to_remove)
+def get_user(codecool, users_list):
+    possible_ids = [str(user.id_) for user in users_list]
+    chosen_user_id = ''
+    while chosen_user_id not in possible_ids:
+        print_students_list(codecool)
+        chosen_user_id = get_id()
+    chosen_user_id = int(chosen_user_id)
+
+    for user in users_list:
+        if chosen_user_id == user.id_:
+            chosen_user = user
+
+    return chosen_user
+
+
+def get_student(codecool):
+    return get_user(codecool, codecool.students_list)
+
+
+def remove_student(codecool):
+    student_to_remove = get_student(codecool)
+    codecool.students_list.remove(student_to_remove)
 
 
 def start_controller(codecool, mentor):
@@ -98,4 +117,4 @@ def start_controller(codecool, mentor):
         elif choice == '4':
             add_student(codecool)
         elif choice == '5':
-            pass
+            remove_student(codecool)
