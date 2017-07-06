@@ -1,4 +1,5 @@
 import views.ui
+from views.assignment_view import *
 
 
 def print_mentor_details(mentor):
@@ -14,9 +15,9 @@ def print_mentor_details(mentor):
 
     ornament = 30 * '='
     print(ornament)
-    print('Mentor id:', mentor.id)
+    print('Mentor id:', mentor.id_)
     print('Full name:', mentor.name, mentor.surname)
-    print('E-mail:', mentor.e_mail)
+    print('E-mail:', mentor.email)
     print('Phone:', mentor.phone)
     print(ornament)
 
@@ -33,15 +34,37 @@ def print_students_list(codecool):
 
 def print_mentor_menu():
     title = 'Mentor Menu'
-    options = ['List students', 'Add assignments', 'Grade assignment', 'Check attendance', 'Edit student']
+    options = ['List students', 'Add assignments', 'Grade assignment', 'Add student', 'Remove student', 'Edit student']
 
     views.ui.print_menu(title, options, 'Exit')
 
 
 def get_choice():
-    possible_choices = ['0', '1', '2', '3', '4', '5']
+    possible_choices = ['0', '1', '2', '3', '4', '5', '6']
     choice = ''
     while choice not in possible_choices:
         choice = views.ui.get_inputs(['option:'], 'Choose option')[0]
 
     return choice
+
+
+def print_all_assignments(codecool):
+    for assignment in codecool.assignments_list:
+        print_assignment_details(assignment)
+        print()
+
+
+def get_new_student_data():
+    student_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
+    data = views.ui.get_inputs(student_attributes_names, 'Provide data for new student')
+
+    return data
+
+
+def get_id():
+    return views.ui.get_inputs(['id:'], 'Provide id')[0]
+
+
+def get_input(msg):
+    a = input(msg)
+    return a

@@ -38,3 +38,23 @@ def get_assignment_id():
 
 def get_assignment_submission_content():
     return get_inputs(['content:'], 'Provide content')[0]
+
+
+def print_student_details(student):
+    """
+    Function prints mentor details
+
+    Args:
+        student (Student): object represents single student
+
+    Returns:
+        None
+    """
+
+    ornament = 30 * '='
+    print(ornament)
+    print('Mentor id:', student.id_)
+    print('Full name:', student.name, student.surname)
+    print('E-mail:', student.email)
+    print('Phone:', student.phone)
+    print(ornament)
