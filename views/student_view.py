@@ -30,3 +30,7 @@ def print_all_assignments(assignments_list):
     for assignment in assignments_list:
         print_assignment_details(assignment)
         print()
+
+
+def get_assignment_id():
+    return get_inputs(['assignment id:'], 'Provide assignment id')[0]
