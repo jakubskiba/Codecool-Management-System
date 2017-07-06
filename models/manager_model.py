@@ -1,5 +1,4 @@
 from models.user_model import User
 
-
-class Mentor(User):
+class Manager(User):
     pass

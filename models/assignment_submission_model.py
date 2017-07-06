@@ -1,11 +1,11 @@
 from models.student_model import Student
 from models.assignment_model import Assignment
-from datetime import date
+from datetime import datetime
 
 
 class AssignmentSubmission():
 
-    def __init__(student, date_of_submission, content, assignment):
+    def __init__(self, student, date_of_submission, content, assignment):
 
         '''
         initialize AssignmentSubmission object
@@ -16,8 +16,8 @@ class AssignmentSubmission():
             assignment: Assignment object
             grade: int
         '''
-        if type(student) == Student and type(date_of_submission) == datetime and 
-           type(content) == str and type(assignment) == Assignment:
+
+        if type(student) == Student and type(date_of_submission) == datetime and type(content) == str and type(assignment) == Assignment:
 
             self.student = student
             self.date_of_submission = date_of_submission
