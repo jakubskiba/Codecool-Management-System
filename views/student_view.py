@@ -34,3 +34,7 @@ def print_all_assignments(assignments_list):
 
 def get_assignment_id():
     return get_inputs(['assignment id:'], 'Provide assignment id')[0]
+
+
+def get_assignment_submission_content():
+    return get_inputs(['content:'], 'Provide content')[0]
