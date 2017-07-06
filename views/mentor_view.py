@@ -1,4 +1,5 @@
 import views.ui
+from views.assignment_view import *
 
 
 def print_mentor_details(mentor):
@@ -14,9 +15,9 @@ def print_mentor_details(mentor):
 
     ornament = 30 * '='
     print(ornament)
-    print('Mentor id:', mentor.id)
+    print('Mentor id:', mentor.id_)
     print('Full name:', mentor.name, mentor.surname)
-    print('E-mail:', mentor.e_mail)
+    print('E-mail:', mentor.email)
     print('Phone:', mentor.phone)
     print(ornament)
 
@@ -45,3 +46,9 @@ def get_choice():
         choice = views.ui.get_inputs(['option:'], 'Choose option')[0]
 
     return choice
+
+
+def print_all_assignments(codecool):
+    for assignment in codecool.assignments_list:
+        print_assignment_details(assignment)
+        print()
