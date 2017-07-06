@@ -1,3 +1,6 @@
+from views.ui import print_menu
+
+
 def grades(sub):
     '''prepares string to be printed as grade'''
     if not sub.grade:
@@ -22,3 +25,13 @@ def print_submission(sub):
     print('{}: {} / {}'.format(sub.student.name, sub.content, sub.date_of_submission))
     print(is_on_time(sub).rjust(30))
     print('Grade: {}'.format(grades(sub)).rjust(30))
+
+
+def get_number():
+    ''' number is string'''
+    num = input()
+    return num
+
+
+def print_what_to_do():
+    print_menu('Would you like to submit assignment?', ['Show submission'], 'exit')
