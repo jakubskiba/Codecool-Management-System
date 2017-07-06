@@ -16,10 +16,13 @@ def add_new_assignment(codecool):
         date = datetime(int(year), int(month), int(day))
         assignment = Assignment(content, date, Assignment.last_id + 1)
         codecool.assignments_list.append(assignment)
-    except TypeError:
+        print_assignment_details(assignment)
+    except (TypeError, ValueError) as er:
         print('Wrong values!')
 
-    print_assignment_details(assignment)
+
+def grade_assignment(codecool):
+    print_all_assignments(codecool)
 
 
 def start_controller(codecool, mentor):
@@ -33,7 +36,7 @@ def start_controller(codecool, mentor):
         elif choice == '2':
             add_new_assignment(codecool)
         elif choice == '3':
-            pass
+            grade_assignment(codecool)
         elif choice == '4':
             pass
         elif choice == '5':
