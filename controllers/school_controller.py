@@ -146,14 +146,58 @@ def save_users(codecool):
                   'csv/mentor.csv': codecool.mentors_list, 'csv/student.csv': codecool.students_list}
 
     for filename in files_dict:
-        data_to save = []
+        data_to_save = []
         for user in files_dict[filename]:
-            data_to_save.append([user.name, user.surname, user.login, user.password, user_email, user.phone, user.id_])
+            data_to_save.append([user.name, user.surname, user.login, user.password, user.email, user.phone, str(user.id_)])
 
         data_to_save = ['|'.join(line) for line in data_to_save]
         data_to_save = '\n'.join(data_to_save)
         with open(filename, 'w') as datafile:
             datafile.write(data_to_save)
+
+
+def save_assignments(codecool):
+    data_to_save = []
+    for assignment in codecool.assignments_list:
+        deadline = [str(assignment.deadline.year), str(assignment.deadline.month), str(assignment.deadline.day)]
+        deadline = '-'.join(deadline)
+        data_to_save.append([assignment.content, deadline, str(assignment.assignment_id)])
+
+    data_to_save = ['|'.join(line) for line in data_to_save]
+    data_to_save = '\n'.join(data_to_save)
+
+    with open('csv/assignment.csv', 'w') as datafile:
+        datafile.write(data_to_save)
+
+
+def save_attendance(codecool):
+    data_to_save = []
+    for student in codecool.students_list:
+        for attendance in student.attendance_list:
+            date = [str(attendance.date.year), str(attendance.date.month), str(attendance.date.day)]
+            date = '-'.join(date)
+            data_to_save.append([date, str(attendance.attendance_state), str(student.id_)])
+
+    data_to_save = ['|'.join(line) for line in data_to_save]
+    data_to_save = '\n'.join(data_to_save)
+
+    with open('csv/attendance.csv', 'w') as datafile:
+        datafile.write(data_to_save)
+
+
+def save_assignment_submission(codecool):
+    data_to_save = []
+    for student in codecool.students_list:
+        for submission in student.assignment_submissions:
+            date = [str(submission.date_of_submission.year), str(submission.date_of_submission.month), str(submission.date_of_submission.day)]
+            date = '-'.join(date)
+            data_to_save.append([str(student.id_), date, submission.content, str(submission.assignment.assignment_id), str(submission.grade)])
+
+    data_to_save = ['|'.join(line) for line in data_to_save]
+    data_to_save = '\n'.join(data_to_save)
+
+    with open('csv/assignment_submission.csv', 'w') as datafile:
+        datafile.write(data_to_save)
 
 
 def save_files(codecool):
@@ -180,4 +224,5 @@ def start_controller():
     else:
         print('There is no such user in system!')
 
+    save_files(codecool)
     print_exit_message()
