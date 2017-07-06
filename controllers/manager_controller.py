@@ -1,19 +1,23 @@
 from views.manager_view import *
+from models.mentor_model import Mentor
+from models.user_model import User
 
 
 def start_controller(school, manager):
     choice = ''
     while choice != '0':
+        print(User.last_id)
         print_manager_menu()
         choice = get_choice()
 
         if choice == '1':
-            list_all_mentors(School.mentors_list)
+            list_all_mentors(school.mentors_list)
         elif choice == '2':
             view_mentor_details(school)
             pass
         elif choice == '3':
-            # Add mentor
+            add_mentor(school, manager)
+
             pass
         elif choice == '4':
             # Remove mentor
@@ -40,3 +44,20 @@ def view_mentor_details(school):
             chosen_mentor = mentor
 
     print_mentor(chosen_mentor)
+
+
+def add_mentor(school, manager):
+    mentor_data = get_new_mentor_data()
+
+    name = mentor_data[0]
+    surname = mentor_data[1]
+    login = mentor_data[2]
+    password = mentor_data[3]
+    email = mentor_data[4]
+    phone = mentor_data[5]
+
+    id_ = User.last_id + 1
+
+    new_mentor = Mentor(name, surname, login, password, email, phone, id_)
+
+    school.mentors_list.append(new_mentor)

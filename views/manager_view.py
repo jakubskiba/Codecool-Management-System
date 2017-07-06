@@ -41,3 +41,10 @@ def get_mentor_id():
 
 def print_mentor(mentor):
     print_mentor_details(mentor)
+
+
+def get_new_mentor_data():
+    mentor_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
+    data = get_inputs(mentor_attributes_names, 'Provide data for mentor')
+
+    return data
