@@ -3,7 +3,6 @@ from views.user_view import *
 
 
 def start_controller(user):
-    
     display_update_choice(user)
     which_data = get_data_number()
     updater(user, which_data)

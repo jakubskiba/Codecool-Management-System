@@ -7,6 +7,7 @@ from datetime import datetime
 import views.ui
 from views.assignment_submission_view import *
 from models.student_model import Student
+import controllers.user_controller
 
 
 def add_new_assignment(codecool):
@@ -104,6 +105,11 @@ def remove_student(codecool):
     codecool.students_list.remove(student_to_remove)
 
 
+def edit_student(codecool):
+    student_to_change = get_student(codecool)
+    controllers.user_controller.start_controller(student_to_change)
+
+
 def start_controller(codecool, mentor):
     choice = ''
     while choice != '0':
@@ -120,3 +126,5 @@ def start_controller(codecool, mentor):
             add_student(codecool)
         elif choice == '5':
             remove_student(codecool)
+        elif choice == '6':
+            edit_student(codecool)
