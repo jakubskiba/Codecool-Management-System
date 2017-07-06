@@ -1,6 +1,7 @@
 from views.ui import print_menu
 from views.ui import get_inputs
 from views.mentor_view import print_mentor_details
+from views.student_view import print_student_details
 
 
 def print_manager_menu():
@@ -25,18 +26,18 @@ def get_choice():
     return choice
 
 
-def list_all_mentors(mentors_list):
+def list_users(users_list):
     print(' ' + '=' * 41)
     print('|{:<20}|{:<20}|'.format('id', 'name'))
     print('|{:<20}|{:<20}|'.format('', '').replace(' ', '+'))
-    for mentor in mentors_list:
-        print('|{:<20}|{:<20}|'.format(str(mentor.id_), mentor.name))
+    for user in users_list:
+        print('|{:<20}|{:<20}|'.format(str(user.id_), user.name))
 
     print(' ' + '=' * 41)
 
 
-def get_mentor_id():
-    return get_inputs(['mentor id:'], 'Provide mentor id')[0]
+def get_id():
+    return get_inputs(['id:'], 'Provide id')[0]
 
 
 def print_mentor(mentor):
@@ -48,3 +49,17 @@ def get_new_mentor_data():
     data = get_inputs(mentor_attributes_names, 'Provide data for mentor')
 
     return data
+
+
+def list_all_students(students_list):
+    print(' ' + '=' * 41)
+    print('|{:<20}|{:<20}|'.format('id', 'name'))
+    print('|{:<20}|{:<20}|'.format('', '').replace(' ', '+'))
+    for student in students_list:
+        print('|{:<20}|{:<20}|'.format(str(student.id_), student.name))
+
+    print(' ' + '=' * 41)
+
+
+def print_student(student):
+    print_student_details(student)

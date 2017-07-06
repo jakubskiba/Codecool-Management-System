@@ -10,7 +10,7 @@ def start_controller(school, manager):
         choice = get_choice()
 
         if choice == '1':
-            list_all_mentors(school.mentors_list)
+            list_users(school.mentors_list)
 
         elif choice == '2':
             view_mentor_details(school)
@@ -25,24 +25,30 @@ def start_controller(school, manager):
             list_all_students(school.students_list)
 
         elif choice == '6':
-            # View students details
-            pass
+            view_student_details(school)
+
+
+def get_user(school, users_list):
+    possible_ids = [str(user.id_) for user in users_list]
+    chosen_user_id = ''
+    while chosen_user_id not in possible_ids:
+        list_users(users_list)
+        chosen_user_id = get_id()
+    chosen_user_id = int(chosen_user_id)
+
+    for user in users_list:
+        if chosen_user_id == user.id_:
+            chosen_user = user
+
+    return chosen_user
 
 
 def get_mentor(school):
-    mentors_ids = [str(mentor.id_) for mentor in school.mentors_list]
+    return get_user(school, school.mentors_list)
 
-    chosen_mentor_id = ''
-    while chosen_mentor_id not in mentors_ids:
-        list_all_mentors(school.mentors_list)
-        chosen_mentor_id = get_mentor_id()
-    chosen_mentor_id = int(chosen_mentor_id)
 
-    for mentor in school.mentors_list:
-        if chosen_mentor_id == mentor.id_:
-            chosen_mentor = mentor
-
-    return chosen_mentor
+def get_student(school):
+    return get_user(school, school.students_list)
 
 
 def view_mentor_details(school):
@@ -70,3 +76,8 @@ def add_mentor(school):
 def remove_mentor(school):
     mentor_to_remove = get_mentor(school)
     school.mentors_list.remove(mentor_to_remove)
+
+
+def view_student_details(school):
+    chosen_student = get_student(school)
+    print_student(chosen_student)
