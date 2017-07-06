@@ -2,6 +2,9 @@ from datetime import datetime
 
 
 class Assignment:
+
+    last_id = 0
+
     def __init__(self, content, deadline, assignment_id):
         """
         Method creates an instance of the class
@@ -19,6 +22,8 @@ class Assignment:
             self.content = content
             self.deadline = deadline
             self.assignment_id = assignment_id
+
+            self.__class__.last_id += 1
         else:
             raise TypeError
 
