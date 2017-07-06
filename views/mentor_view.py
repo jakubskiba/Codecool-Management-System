@@ -34,7 +34,7 @@ def print_students_list(codecool):
 
 def print_mentor_menu():
     title = 'Mentor Menu'
-    options = ['List students', 'Add assignments', 'Grade assignment', 'Check attendance', 'Edit student']
+    options = ['List students', 'Add assignments', 'Grade assignment', 'Add student', 'Remove student']
 
     views.ui.print_menu(title, options, 'Exit')
 
@@ -52,6 +52,13 @@ def print_all_assignments(codecool):
     for assignment in codecool.assignments_list:
         print_assignment_details(assignment)
         print()
+
+
+def get_new_student_data():
+    student_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
+    data = views.ui.get_inputs(student_attributes_names, 'Provide data for new student')
+
+    return data
 
 
 def get_input(msg):

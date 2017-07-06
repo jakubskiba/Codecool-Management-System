@@ -6,6 +6,7 @@ from models.assignment_model import Assignment
 from datetime import datetime
 import views.ui
 from views.assignment_submission_view import *
+from models.student_model import Student
 
 
 def add_new_assignment(codecool):
@@ -60,6 +61,28 @@ def choose_submission_by_id(id_, student):
     return ValueError
 
 
+def add_student(codecool):
+    student_data = get_new_student_data()
+
+    name = student_data[0]
+    surname = student_data[1]
+    login = student_data[2]
+    password = student_data[3]
+    email = student_data[4]
+    phone = student_data[5]
+
+    id_ = User.last_id + 1
+
+    new_student = Student(name, surname, login, password, email, phone, id_)
+
+    codecool.students_list.append(new_student)
+
+
+def remove_mentor(school):
+    mentor_to_remove = get_mentor(school)
+    school.mentors_list.remove(mentor_to_remove)
+
+
 def start_controller(codecool, mentor):
     choice = ''
     while choice != '0':
@@ -73,10 +96,6 @@ def start_controller(codecool, mentor):
         elif choice == '3':
             grade_assignment(codecool)
         elif choice == '4':
-            pass
+            add_student(codecool)
         elif choice == '5':
             pass
-
-
-def submit_assignment():
-    pass
