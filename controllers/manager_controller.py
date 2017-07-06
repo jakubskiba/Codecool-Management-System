@@ -22,8 +22,8 @@ def start_controller(school, manager):
             remove_mentor(school)
 
         elif choice == '5':
-            # List students
-            pass
+            list_all_students(school.students_list)
+
         elif choice == '6':
             # View students details
             pass
