@@ -130,10 +130,10 @@ def start_controller():
         controllers.manager_controller.start_controller(codecool, user)
     elif type(user) is Administrator:
         controllers.administrator_controller.start_controller(codecool, user)
-    elif type(user) is Administrator:
-        controllers.administrator_controller.start_controller(codecool, user)
-    elif type(user) is Administrator:
-        controllers.administrator_controller.start_controller(codecool, user)
+    elif type(user) is Mentor:
+        controllers.mentor_controller.start_controller(codecool, user)
+    elif type(user) is Student:
+        controllers.student_controller.start_controller(codecool, user)
     else:
         print('There is no such user in system!')
 
