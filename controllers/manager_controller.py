@@ -1,3 +1,4 @@
+from views.ui import print_error_message
 from views.manager_view import *
 from models.mentor_model import Mentor
 from models.user_model import User
@@ -68,9 +69,14 @@ def add_mentor(school):
 
     id_ = User.last_id + 1
 
-    new_mentor = Mentor(name, surname, login, password, email, phone, id_)
+    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
+    users_logins = [user.login for user in users]
 
-    school.mentors_list.append(new_mentor)
+    if login not in users_logins:
+        new_mentor = Mentor(name, surname, login, password, email, phone, id_)
+        school.mentors_list.append(new_mentor)
+    else:
+        print_error_message('login already in use')
 
 
 def remove_mentor(school):
