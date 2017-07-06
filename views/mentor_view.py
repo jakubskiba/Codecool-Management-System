@@ -14,9 +14,9 @@ def print_mentor_details(mentor):
 
     ornament = 30 * '='
     print(ornament)
-    print('Mentor id:', mentor.id)
+    print('Mentor id:', mentor.id_)
     print('Full name:', mentor.name, mentor.surname)
-    print('E-mail:', mentor.e_mail)
+    print('E-mail:', mentor.email)
     print('Phone:', mentor.phone)
     print(ornament)
 
