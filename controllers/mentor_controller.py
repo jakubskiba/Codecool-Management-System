@@ -37,10 +37,12 @@ def grade_assignment(codecool):
 
     try:
         student = choose_student_by_id(int(student_id[0]), codecool)
+        id_ = 1
         for subm in student.assignment_submissions:
+            print('Submission id:', id_)
             print_submission(subm)
-
-        id_ = input('Which assignment to grade?')
+            id_ += 1
+        id_ = input('Choose submission id: ')
 
         try:
             submission_to_mark = choose_submission_by_id(id_, student)
@@ -55,10 +57,10 @@ def grade_assignment(codecool):
 
 
 def choose_submission_by_id(id_, student):
-    for subm in student.assignment_submissions:
-        if subm.id_ == id_:
-            return subm
-    return ValueError
+    if int(id_) in range(1, len(student.assignment_submissions) + 1):
+        return student.assignment_submissions[int(id_)-1]
+    else:
+        raise ValueError
 
 
 def add_student(codecool):
