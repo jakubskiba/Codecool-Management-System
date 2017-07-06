@@ -26,5 +26,18 @@ def get_choice():
 
 
 def list_all_mentors(mentors_list):
+    print(' ' + '=' * 41)
+    print('|{:<20}|{:<20}|'.format('id', 'name'))
+    print('|{:<20}|{:<20}|'.format('', '').replace(' ', '+'))
     for mentor in mentors_list:
-        print_mentor_details(mentor)
+        print('|{:<20}|{:<20}|'.format(str(mentor.id_), mentor.name))
+
+    print(' ' + '=' * 41)
+
+
+def get_mentor_id():
+    return get_inputs(['mentor id:'], 'Provide mentor id')[0]
+
+
+def print_mentor(mentor):
+    print_mentor_details(mentor)
