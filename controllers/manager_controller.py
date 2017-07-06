@@ -19,8 +19,7 @@ def start_controller(school, manager):
             add_mentor(school)
 
         elif choice == '4':
-            # Remove mentor
-            pass
+            remove_mentor(school)
 
         elif choice == '5':
             # List students
@@ -68,3 +67,6 @@ def add_mentor(school):
     school.mentors_list.append(new_mentor)
 
 
+def remove_mentor(school):
+    mentor_to_remove = get_mentor(school)
+    school.mentors_list.remove(mentor_to_remove)
