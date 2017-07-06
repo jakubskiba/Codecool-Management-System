@@ -17,8 +17,8 @@ def start_controller(school, student):
             get_assignment_submissions(student)
 
 
-def submit_assignment(school, student):
-    pass
+def get_assignment_submissions(student):
+    print_all_submissions(student.assignment_submissions)
 
 
 def list_assignments(school):
