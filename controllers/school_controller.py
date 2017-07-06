@@ -141,6 +141,28 @@ def log_in(codecool):
             return user
 
 
+def save_users(codecool):
+    files_dict = {'csv/manager.csv': codecool.managers_list, 'csv/administrator.csv': codecool.administrators_list,
+                  'csv/mentor.csv': codecool.mentors_list, 'csv/student.csv': codecool.students_list}
+
+    for filename in files_dict:
+        data_to save = []
+        for user in files_dict[filename]:
+            data_to_save.append([user.name, user.surname, user.login, user.password, user_email, user.phone, user.id_])
+
+        data_to_save = ['|'.join(line) for line in data_to_save]
+        data_to_save = '\n'.join(data_to_save)
+        with open(filename, 'w') as datafile:
+            datafile.write(data_to_save)
+
+
+def save_files(codecool):
+    save_users(codecool)
+    save_assignments(codecool)
+    save_attendance(codecool)
+    save_assignment_submission(codecool)
+
+
 def start_controller():
     intro()
     codecool = School()
