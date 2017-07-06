@@ -1,4 +1,5 @@
 from models.mentor_model import Mentor
+from models.user_model import User
 from views.mentor_view import *
 
 

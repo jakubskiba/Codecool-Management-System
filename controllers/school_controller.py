@@ -103,11 +103,32 @@ def load_assignment_submission(codecool):
         student.assignment_submissions.append(assignment_submission)
 
 
+def get_last_user_id(codecool):
+    last_id = 0
+    users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
+    for user in users:
+        if user.id_ > last_id:
+            last_id = user.id_
+
+    return last_id
+
+
+def get_last_assignment_id(codecool):
+    last_id = 0
+    for assignment in codecool.assignments_list:
+        if assignment.assignment_id > last_id:
+            last_id = assignment.assignment_id
+
+    return last_id
+
+
 def load_files(codecool):
     load_users(codecool)
     load_assignments(codecool)
     load_attendance(codecool)
     load_assignment_submission(codecool)
+    User.last_id = get_last_user_id(codecool)
+    Assignment.last_id = get_last_assignment_id(codecool)
 
 
 def log_in(codecool):
