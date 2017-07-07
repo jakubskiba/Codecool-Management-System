@@ -27,13 +27,13 @@ def get_choice():
 
 
 def list_users(users_list):
-    print(' ' + '=' * 41)
-    print('|{:<20}|{:<20}|'.format('id', 'name'))
-    print('|{:<20}|{:<20}|'.format('', '').replace(' ', '+'))
+    print(' ' + '=' * 62)
+    print('|{:<20}|{:<20}|{:<20}|'.format('id', 'name', 'surname'))
+    print('|{:<20}|{:<20}|{:<20}|'.format('', '', '').replace(' ', '+'))
     for user in users_list:
-        print('|{:<20}|{:<20}|'.format(str(user.id_), user.name))
+        print('|{:<20}|{:<20}|{:<20}|'.format(str(user.id_), user.name, user.surname))
 
-    print(' ' + '=' * 41)
+    print(' ' + '=' * 62)
 
 
 def get_id():
