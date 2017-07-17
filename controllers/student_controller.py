@@ -1,3 +1,6 @@
+import os
+
+import views.user_view
 from views.student_view import *
 from models.assignment_submission_model import AssignmentSubmission
 from datetime import datetime
@@ -17,6 +20,8 @@ def start_controller(school, student):
 
     choice = ''
     while choice != '0':
+        os.system('clear')
+        views.user_view.display_user_info(student)
         print_student_menu()
         choice = get_choice()
 
@@ -26,6 +31,8 @@ def start_controller(school, student):
             list_assignments(school)
         elif choice == '3':
             get_assignment_submissions(student)
+
+        input('Press enter')
 
 
 def get_assignment_submissions(student):

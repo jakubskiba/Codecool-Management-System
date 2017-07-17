@@ -1,13 +1,19 @@
+import os
+
 from models.mentor_model import Mentor
 from models.user_model import User
+from models.student_model import Student
+
 from views.mentor_view import *
 from views.assignment_view import *
+from views.assignment_submission_view import *
+import views.ui
+
 from models.assignment_model import Assignment
 from datetime import datetime
-import views.ui
-from views.assignment_submission_view import *
-from models.student_model import Student
+
 import controllers.user_controller
+
 import utilities
 
 
@@ -226,6 +232,8 @@ def start_controller(codecool, mentor):
 
     choice = ''
     while choice != '0':
+        os.system('clear')
+        views.user_view.display_user_info(mentor)
         print_mentor_menu()
         choice = get_choice()
 
@@ -241,3 +249,5 @@ def start_controller(codecool, mentor):
             remove_student(codecool)
         elif choice == '6':
             edit_student(codecool)
+
+        input('Press enter')
