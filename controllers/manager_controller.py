@@ -1,8 +1,10 @@
-from views.ui import print_error_message
-from views.manager_view import *
 from models.mentor_model import Mentor
 from models.user_model import User
-import views
+
+import views.user_view
+import views.manager_view
+import views.ui
+
 import utilities
 import os
 
@@ -23,11 +25,11 @@ def start_controller(school, manager):
     while choice != '0':
         os.system('clear')
         views.user_view.display_user_info(manager)
-        print_manager_menu()
-        choice = get_choice()
+        views.manager_view.print_manager_menu()
+        choice = views.manager_view.get_choice()
 
         if choice == '1':
-            list_users(school.mentors_list)
+            views.manager_view.list_users(school.mentors_list)
 
         elif choice == '2':
             view_mentor_details(school)
@@ -39,7 +41,7 @@ def start_controller(school, manager):
             remove_mentor(school)
 
         elif choice == '5':
-            list_all_students(school.students_list)
+            views.manager_view.list_all_students(school.students_list)
 
         elif choice == '6':
             view_student_details(school)
@@ -62,8 +64,8 @@ def get_user(school, users_list):
     possible_ids = [str(user.id_) for user in users_list]
     chosen_user_id = ''
     while chosen_user_id not in possible_ids:
-        list_users(users_list)
-        chosen_user_id = get_id()
+        views.manager_view.list_users(users_list)
+        chosen_user_id = views.manager_view.get_id()
     chosen_user_id = int(chosen_user_id)
 
     for user in users_list:
@@ -108,7 +110,7 @@ def view_mentor_details(school):
     """
 
     chosen_mentor = get_mentor(school)
-    print_mentor(chosen_mentor)
+    views.manager_view.print_mentor(chosen_mentor)
 
 
 def add_mentor(school):
@@ -123,7 +125,7 @@ def add_mentor(school):
         None
     """
 
-    mentor_data = get_new_mentor_data()
+    mentor_data = views.manager_view.get_new_mentor_data()
 
     name = mentor_data[0]
     surname = mentor_data[1]
@@ -143,7 +145,7 @@ def add_mentor(school):
         new_mentor = Mentor(name, surname, login, password, email, phone, id_)
         school.mentors_list.append(new_mentor)
     else:
-        print_error_message('login already in use')
+        views.ui.print_error_message('login already in use')
 
 
 def remove_mentor(school):
@@ -173,4 +175,4 @@ def view_student_details(school):
     """
 
     chosen_student = get_student(school)
-    print_student(chosen_student)
+    views.manager_view.print_student(chosen_student)
