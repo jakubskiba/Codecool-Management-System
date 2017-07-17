@@ -1,4 +1,5 @@
 import views.ui
+import getpass
 
 
 def intro():
@@ -11,7 +12,7 @@ def get_login():
 
 
 def get_password():
-    return input('Input your password: ')
+    return getpass.getpass('Input your password: ')
 
 
 def print_exit_message():
