@@ -18,6 +18,14 @@ def print_exit_message():
     print('Thank you for using New Canvas! See you next time.')
 
 
+def get_exit_decision():
+    decision = input('Do you want to exit program (Y/n)? ').lower()
+    if decision == 'n':
+        return False
+    else:
+        return True
+
+
 def print_mentors_list(codecool):
     title_list = ['id', 'Name', 'Surname']
 
