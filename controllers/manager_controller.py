@@ -1,5 +1,5 @@
-from models.mentor_model import Mentor
-from models.user_model import User
+import models.mentor_model
+import models.user_model
 
 import views.user_view
 import views.manager_view
@@ -134,7 +134,7 @@ def add_mentor(school):
     email = mentor_data[4]
     phone = mentor_data[5]
 
-    id_ = User.last_id + 1
+    id_ = models.user_model.User.last_id + 1
 
     password = utilities.hash_password(password)
 
@@ -142,7 +142,7 @@ def add_mentor(school):
     users_logins = [user.login for user in users]
 
     if login not in users_logins:
-        new_mentor = Mentor(name, surname, login, password, email, phone, id_)
+        new_mentor = models.mentor_model.Mentor(name, surname, login, password, email, phone, id_)
         school.mentors_list.append(new_mentor)
     else:
         views.ui.print_error_message('login already in use')
