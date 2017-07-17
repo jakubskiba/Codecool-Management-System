@@ -14,7 +14,7 @@ import controllers.manager_controller
 import controllers.administrator_controller
 import controllers.mentor_controller
 import controllers.student_controller
-
+import hashing
 
 def get_user_by_id(codecool, id_):
     """
@@ -235,6 +235,8 @@ def log_in(codecool):
 
     login = get_login()
     password = get_password()
+
+    password = hashing.hash_password(password)
 
     users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
     for user in users:

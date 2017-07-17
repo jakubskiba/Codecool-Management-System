@@ -8,7 +8,7 @@ import views.ui
 from views.assignment_submission_view import *
 from models.student_model import Student
 import controllers.user_controller
-
+import hashing
 
 def add_new_assignment(codecool):
     """
@@ -134,6 +134,8 @@ def add_student(codecool):
     phone = student_data[5]
 
     id_ = User.last_id + 1
+
+    password = hashing.hash_password(password)
 
     new_student = Student(name, surname, login, password, email, phone, id_)
 

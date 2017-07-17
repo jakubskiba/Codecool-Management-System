@@ -2,6 +2,7 @@ from views.ui import print_error_message
 from views.manager_view import *
 from models.mentor_model import Mentor
 from models.user_model import User
+import hashing
 
 
 def start_controller(school, manager):
@@ -126,6 +127,8 @@ def add_mentor(school):
     phone = mentor_data[5]
 
     id_ = User.last_id + 1
+
+    password = hashing.hash_password(password)
 
     users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
     users_logins = [user.login for user in users]
