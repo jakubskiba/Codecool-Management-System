@@ -236,4 +236,4 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-    print('\nError:', message)
+    print('\n\033[93mError:', message, '\033[0m')
