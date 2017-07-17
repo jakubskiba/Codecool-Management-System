@@ -1,4 +1,6 @@
+import os
 from datetime import datetime
+
 from models.school_model import School
 from models.user_model import User
 from models.manager_model import Manager
@@ -14,6 +16,7 @@ import controllers.manager_controller
 import controllers.administrator_controller
 import controllers.mentor_controller
 import controllers.student_controller
+
 import utilities
 
 
@@ -371,21 +374,29 @@ def start_controller():
     Returns:
         None
     """
-    intro()
-    codecool = School()
-    load_files(codecool)
 
-    user = log_in(codecool)
-    if type(user) is Manager:
-        controllers.manager_controller.start_controller(codecool, user)
-    elif type(user) is Administrator:
-        controllers.administrator_controller.start_controller(codecool, user)
-    elif type(user) is Mentor:
-        controllers.mentor_controller.start_controller(codecool, user)
-    elif type(user) is Student:
-        controllers.student_controller.start_controller(codecool, user)
-    else:
-        print('There is no such user in system!')
+    is_controller_running = True
 
-    save_files(codecool)
-    print_exit_message()
+    while is_controller_running:
+        os.system('clear')
+        intro()
+        codecool = School()
+        load_files(codecool)
+
+        user = log_in(codecool)
+        if type(user) is Manager:
+            controllers.manager_controller.start_controller(codecool, user)
+        elif type(user) is Administrator:
+            controllers.administrator_controller.start_controller(codecool, user)
+        elif type(user) is Mentor:
+            controllers.mentor_controller.start_controller(codecool, user)
+        elif type(user) is Student:
+            controllers.student_controller.start_controller(codecool, user)
+        else:
+            print_no_user_message()
+
+        save_files(codecool)
+        print_exit_message()
+
+        if get_exit_decision():
+            is_controller_running = False
