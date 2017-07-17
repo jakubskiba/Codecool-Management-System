@@ -2,7 +2,9 @@ from views.ui import print_error_message
 from views.manager_view import *
 from models.mentor_model import Mentor
 from models.user_model import User
+import views
 import utilities
+import os
 
 
 def start_controller(school, manager):
@@ -19,6 +21,8 @@ def start_controller(school, manager):
 
     choice = ''
     while choice != '0':
+        os.system('clear')
+        views.user_view.display_user_info(manager)
         print_manager_menu()
         choice = get_choice()
 
@@ -39,6 +43,8 @@ def start_controller(school, manager):
 
         elif choice == '6':
             view_student_details(school)
+
+        input('Press enter')
 
 
 def get_user(school, users_list):
