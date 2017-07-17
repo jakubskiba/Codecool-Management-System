@@ -18,6 +18,10 @@ def print_exit_message():
     print('Thank you for using New Canvas! See you next time.')
 
 
+def print_no_user_message():
+    print('There is no such user in system!')
+
+
 def get_exit_decision():
     decision = input('Do you want to exit program (Y/n)? ').lower()
     if decision == 'n':
