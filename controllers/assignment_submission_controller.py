@@ -1,5 +1,5 @@
-from models.assignment_submission_model import AssignmentSubmission
-from views.assignment_submission_view import *
+from models import assignment_submission_model
+from views import assignment_submission_view
 
 
 def start_controller(assignment_submission):
@@ -16,4 +16,4 @@ def start_controller(assignment_submission):
     print_what_to_do()
     num = get_number()
     if num == '1':
-        print_submission(assignment_submission)
+        assignment_submission_view.print_submission(assignment_submission)
