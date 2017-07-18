@@ -57,4 +57,5 @@ def print_student_details(student):
     print('Full name:', student.name, student.surname)
     print('E-mail:', student.email)
     print('Phone:', student.phone)
+    print('Attendance:', str(student.get_attendance()), '%')
     print(ornament)
