@@ -36,8 +36,6 @@ def display_user_info(user):
         None
     """
 
-    print('Name: {} Surname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
-    ornament = '=' * 30
     print(ornament)
     print('LOGGED USER')
     print(ornament)

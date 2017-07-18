@@ -3,7 +3,7 @@ from models import user_model
 from models import manager_model
 from models import administrator_model
 from models import mentor_model
-from models import student_model 
+from models import student_model
 from models import assignment_model
 from models import assignment_submission_model
 from models import attendance_model
