@@ -13,6 +13,7 @@ from models.assignment_model import Assignment
 from datetime import datetime
 
 import controllers.user_controller
+from controllers import school_controller
 
 import utilities
 
@@ -149,32 +150,6 @@ def add_student(codecool):
     codecool.students_list.append(new_student)
 
 
-def get_user(codecool, users_list):
-    """
-    Asks for user id
-
-    Args:
-        codecool (obj): School object - aggregate all users and assignments
-        users_list (list): list of users
-
-    Returns:
-        User (obj)
-    """
-
-    possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        print_students_list(codecool)
-        chosen_user_id = get_id()
-    chosen_user_id = int(chosen_user_id)
-
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
-
-    return chosen_user
-
-
 def get_student(codecool):
     """
     Returns student object
@@ -186,7 +161,7 @@ def get_student(codecool):
         Student (obj)
     """
 
-    return get_user(codecool, codecool.students_list)
+    return school_controller.get_user(codecool, codecool.students_list)
 
 
 def remove_student(codecool):
@@ -215,7 +190,13 @@ def edit_student(codecool):
         None
     """
     student_to_change = get_student(codecool)
-    controllers.user_controller.start_controller(student_to_change)
+    controllers.school_controller.start_controller(student_to_change)
+
+
+def print_student_details(codecool):
+    chosen_student = get_student(codecool)
+    if chosen_student:
+        views.manager_view.print_student(chosen_student)
 
 
 def start_controller(codecool, mentor):
@@ -240,14 +221,16 @@ def start_controller(codecool, mentor):
         if choice == '1':
             print_students_list(codecool)
         elif choice == '2':
-            add_new_assignment(codecool)
+            print_student_details(codecool) 
         elif choice == '3':
-            grade_assignment(codecool)
+            add_new_assignment(codecool)
         elif choice == '4':
-            add_student(codecool)
+            grade_assignment(codecool)
         elif choice == '5':
-            remove_student(codecool)
+            add_student(codecool)
         elif choice == '6':
+            remove_student(codecool)
+        elif choice == '7':
             edit_student(codecool)
 
         input('Press enter')

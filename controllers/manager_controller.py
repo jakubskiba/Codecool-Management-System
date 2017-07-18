@@ -5,6 +5,9 @@ import views.user_view
 import views.manager_view
 import views.ui
 
+import controllers.user_controller
+from controllers import school_controller
+
 import utilities
 import os
 
@@ -41,38 +44,15 @@ def start_controller(school, manager):
             remove_mentor(school)
 
         elif choice == '5':
-            views.manager_view.list_all_students(school.students_list)
+            edit_mentor(school)
 
         elif choice == '6':
+            views.manager_view.list_all_students(school.students_list)
+
+        elif choice == '7':
             view_student_details(school)
 
         input('Press enter')
-
-
-def get_user(school, users_list):
-    """
-    Ask user for id
-
-    Args:
-        school (obj): school object - aggregate all users and assignments
-        user_list (list): in this list user will be searched
-
-    Returns:
-        User object
-    """
-
-    possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        views.manager_view.list_users(users_list)
-        chosen_user_id = views.manager_view.get_id()
-    chosen_user_id = int(chosen_user_id)
-
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
-
-    return chosen_user
 
 
 def get_mentor(school):
@@ -84,7 +64,7 @@ def get_mentor(school):
         Mentor object
     """
 
-    return get_user(school, school.mentors_list)
+    return school_controller.get_user(school, school.mentors_list)
 
 
 def get_student(school):
@@ -96,7 +76,7 @@ def get_student(school):
         Student object
     """
 
-    return get_user(school, school.students_list)
+    return school_controller.get_user(school, school.students_list)
 
 
 def view_mentor_details(school):
@@ -110,7 +90,8 @@ def view_mentor_details(school):
     """
 
     chosen_mentor = get_mentor(school)
-    views.manager_view.print_mentor(chosen_mentor)
+    if chosen_mentor:
+        views.manager_view.print_mentor(chosen_mentor)
 
 
 def add_mentor(school):
@@ -175,4 +156,20 @@ def view_student_details(school):
     """
 
     chosen_student = get_student(school)
-    views.manager_view.print_student(chosen_student)
+    if chosen_student:
+        views.manager_view.print_student(chosen_student)
+
+def edit_mentor(school):
+    """
+    Changes mentor data
+
+    Args:
+        school (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    mentor_to_change = get_mentor(school)
+    controllers.user_controller.start_controller(mentor_to_change)
+

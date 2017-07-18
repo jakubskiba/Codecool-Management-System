@@ -1,4 +1,7 @@
 models/__pycache__/user_model.cpython-35.pyc
 *.pyc
+*/*.pyc
+*/*/*.pyc
 w
 moj_maly_main.py
+log/
