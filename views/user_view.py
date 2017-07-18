@@ -36,8 +36,13 @@ def display_user_info(user):
         None
     """
 
-<<<<<<< Updated upstream
     print('Name: {} Surname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
+    ornament = '=' * 30
+    print(ornament)
+    print('LOGGED USER')
+    print(ornament)
+    print('Name: {}\nSurname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
+    print(ornament + '\n')
 
 
 def get_new_user_data():
@@ -46,11 +51,3 @@ def get_new_user_data():
     data = ui.get_inputs(user_attributes_names, 'Provide data for user')
 
     return data
-=======
-    ornament = '=' * 30
-    print(ornament)
-    print('LOGGED USER')
-    print(ornament)
-    print('Name: {}\nSurname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
-    print(ornament + '\n')
->>>>>>> Stashed changes
