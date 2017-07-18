@@ -1,8 +1,7 @@
 import os
 
-from models.administrator_model import Administrator
-from models.school_model import School
-from views.administrator_view import *
+from views import administrator_view
+from views import user_view
 
 
 def start_controller(school, administrator):
@@ -20,11 +19,11 @@ def start_controller(school, administrator):
     choice = ''
     while choice != '0':
         os.system('clear')
-        views.user_view.display_user_info(administrator)
-        print_administrator_menu()
-        choice = get_choice()
+        user_view.display_user_info(administrator)
+        administrator_view.print_administrator_menu()
+        choice = administrator_view.get_choice()
 
         if choice == '1':
-            print_students_list(school)
+            administrator_view.print_students_list(school)
 
         input('Press enter')
