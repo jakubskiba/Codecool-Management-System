@@ -10,12 +10,14 @@ from models.student_model import Student
 from models.assignment_model import Assignment
 from models.assignment_submission_model import AssignmentSubmission
 from models.attendance_model import Attendance
-from views.school_view import *
-import controllers.manager_controller
-import controllers.administrator_controller
-import controllers.mentor_controller
-import controllers.student_controller
-import controllers.database
+
+from views import school_view
+from views import manager_view
+from controllers import manager_controller
+from controllers import administrator_controller
+from controllers import mentor_controller
+from controllers import student_controller
+from controllers import database
 import utilities
 
 
@@ -30,8 +32,8 @@ def log_in(codecool):
         User (obj)
     """
 
-    login = get_login()
-    password = get_password()
+    login = school_view.get_login()
+    password = school_view.get_password()
 
     password = utilities.hash_password(password)
 
@@ -53,27 +55,28 @@ def start_controller():
 
     while is_controller_running:
         os.system('clear')
-        intro()
+        school_view.intro()
         codecool = School()
-        controllers.database.load_files(codecool)
+        database.load_files(codecool)
 
         user = log_in(codecool)
         if type(user) is Manager:
-            controllers.manager_controller.start_controller(codecool, user)
+            manager_controller.start_controller(codecool, user)
         elif type(user) is Administrator:
-            controllers.administrator_controller.start_controller(codecool, user)
+            administrator_controller.start_controller(codecool, user)
         elif type(user) is Mentor:
-            controllers.mentor_controller.start_controller(codecool, user)
+            mentor_controller.start_controller(codecool, user)
         elif type(user) is Student:
-            controllers.student_controller.start_controller(codecool, user)
+            student_controller.start_controller(codecool, user)
         else:
-            print_no_user_message()
+            school_view.print_no_user_message()
 
-        controllers.database.save_files(codecool)
-        print_exit_message()
+        database.save_files(codecool)
+        school_view.print_exit_message()
 
-        if get_exit_decision():
+        if school_view.get_exit_decision():
             is_controller_running = False
+
 
 def get_user(school, users_list):
     """
@@ -88,8 +91,8 @@ def get_user(school, users_list):
     """
 
     possible_ids = [str(user.id_) for user in users_list]
-    views.manager_view.list_users(users_list)
-    chosen_user_id = views.manager_view.get_id()
+    manager_view.list_users(users_list)
+    chosen_user_id = manager_view.get_id()
 
     if chosen_user_id in possible_ids:
         chosen_user_id = int(chosen_user_id)
