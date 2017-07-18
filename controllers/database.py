@@ -9,6 +9,25 @@ from models import assignment_submission_model
 from models import attendance_model
 
 
+def make_data_backup():
+    """
+    Make backup of all csv files
+
+    Returns:
+        None
+    """
+
+    csv_files = ['administrator', 'assignment', 'assignment_submission', 'attendance', 'manager', 'mentor', 'student']
+    current_date = datetime.today()
+    prefix = str(current_date).split(' ')[0]
+
+    for csv_file in csv_files:
+        with open('csv/' + csv_file + '.csv') as datafile:
+            content = datafile.read()
+        with open('csv/backup/' + csv_file + '-' + prefix + '.csv', 'w') as datafile:
+            datafile.write(content)
+
+
 def get_user_by_id(codecool, id_):
     """
     Searches user by id
@@ -214,6 +233,7 @@ def load_files(codecool):
     load_assignment_submission(codecool)
     user_model.User.last_id = get_last_user_id(codecool)
     assignment_model.Assignment.last_id = get_last_assignment_id(codecool)
+    make_data_backup()
 
 
 def save_users(codecool):
