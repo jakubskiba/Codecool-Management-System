@@ -10,6 +10,7 @@ def print_manager_menu():
                'View mentor details',
                'Add mentor',
                'Remove mentor',
+               'Edit mentor',
                'List students',
                'View students details'
                ]
@@ -18,7 +19,7 @@ def print_manager_menu():
 
 
 def get_choice():
-    possible_choices = ['0', '1', '2', '3', '4', '5', '6']
+    possible_choices = ['0', '1', '2', '3', '4', '5', '6', '7']
     choice = ''
     while choice not in possible_choices:
         choice = get_inputs(['option:'], 'Choose option')[0]
