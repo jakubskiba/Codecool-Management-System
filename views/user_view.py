@@ -36,6 +36,7 @@ def display_user_info(user):
         None
     """
 
+    ornament = '=' * 30
     print(ornament)
     print('LOGGED USER')
     print(ornament)

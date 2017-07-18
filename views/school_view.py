@@ -38,4 +38,4 @@ def print_mentors_list(codecool):
     for mentor in codecool.mentors_list:
         table.append([mentor.id, mentor.name, mentor.surname])
 
-    views.ui.print_table(table, title_list)
+    ui.print_table(table, title_list)

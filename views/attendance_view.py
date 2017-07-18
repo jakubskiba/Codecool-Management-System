@@ -22,7 +22,7 @@ def print_attendance_table(attendance):
     elif attendance.attendance_state == 1:
         state = 'present'
     state = form.format('state', state)
-    
+
     table = date + student + state
 
     print(table)

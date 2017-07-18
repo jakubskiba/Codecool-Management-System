@@ -20,7 +20,7 @@ class Student(user_model.User):
 
         self.assignment_submissions = []
         self.attendance_list = []
-    
+
     def get_attendance(self):
         """
         Computes attendance percent based on attendance list
@@ -35,4 +35,4 @@ class Student(user_model.User):
             return attendance_sum/len(self.attendance_list) * 100
 
         else:
-            return 100.0 
+            return 100.0

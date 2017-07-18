@@ -13,6 +13,7 @@ from models import attendance_model  # Attendance : -||-
 
 from views import school_view
 from views import manager_view
+from views import ui
 
 from controllers import manager_controller
 from controllers import administrator_controller
@@ -105,4 +106,4 @@ def get_user(school, users_list):
 
         return chosen_user
     else:
-        views.ui.print_error_message('No such user')
+        ui.print_error_message('No such user')

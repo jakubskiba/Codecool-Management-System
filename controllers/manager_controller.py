@@ -143,4 +143,3 @@ def edit_mentor(school):
 
     mentor_to_change = get_mentor(school)
     user_controller.start_controller(mentor_to_change)
-

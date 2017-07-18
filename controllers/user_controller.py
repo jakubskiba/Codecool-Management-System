@@ -1,5 +1,8 @@
 from models import user_model
+from models import student_model
+from models import mentor_model
 from views import user_view
+from views import ui
 import utilities
 
 
@@ -14,8 +17,8 @@ def start_controller(user):
         None
     """
 
-    display_update_choice(user)
-    which_data = get_data_number()
+    user_view.display_update_choice(user)
+    which_data = user_view.get_data_number()
     updater(user, which_data)
 
 
@@ -31,17 +34,17 @@ def updater(user, which_data):
     data_dict = {1: 'email', 2: 'login', 3: 'name', 4: 'password', 5: 'phone', 6: 'surname'}
 
     if which_data == '1':
-        user.email = get_updated_string(data_dict[1])
+        user.email = user_view.get_updated_string(data_dict[1])
     elif which_data == '2':
-        user.login = get_updated_string(data_dict[2])
+        user.login = user_view.get_updated_string(data_dict[2])
     elif which_data == '3':
-        user.name = get_updated_string(data_dict[3])
+        user.name = user_view.get_updated_string(data_dict[3])
     elif which_data == '4':
-        user.password = get_updated_string(data_dict[4])
+        user.password = user_view.get_updated_string(data_dict[4])
     elif which_data == '5':
-        user.phone = get_updated_string(data_dict[5])
+        user.phone = user_view.get_updated_string(data_dict[5])
     elif which_data == '6':
-        user.surname = get_updated_string(data_dict[6])
+        user.surname = user_view.get_updated_string(data_dict[6])
 
 
 def add_user(school, kind='student'):
@@ -57,7 +60,7 @@ def add_user(school, kind='student'):
         None
     """
 
-    user_data = views.user_view.get_new_user_data()
+    user_data = user_view.get_new_user_data()
 
     name = user_data[0]
     surname = user_data[1]
@@ -79,10 +82,13 @@ def add_user(school, kind='student'):
         users_list = school.students_list
 
     if login not in users_logins:
-        new_user = user_model.User(name, surname, login, password, email, phone, id_)
+        if kind == 'student':
+            new_user = student_model.Student(name, surname, login, password, email, phone, id_)
+        else:
+            new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
         users_list.append(new_user)
     else:
-        views.ui.print_error_message('login already in use')
+        ui.print_error_message('login already in use')
 
 
 def get_new_user_data():

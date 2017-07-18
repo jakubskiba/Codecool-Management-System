@@ -2,6 +2,7 @@ import os
 
 from views import user_view
 from views import student_view
+from views import ui
 from models import assignment_submission_model
 from datetime import datetime
 
@@ -21,7 +22,7 @@ def start_controller(school, student):
     choice = ''
     while choice != '0':
         os.system('clear')
-        views.user_view.display_user_info(student)
+        user_view.display_user_info(student)
         student_view.print_student_menu()
         choice = student_view.get_choice()
 
@@ -91,8 +92,9 @@ def submit_assignment(school, student):
 
         submission_date = datetime.now()
 
-        assignment_submission = assignment_submission_model.AssignmentSubmission(student, submission_date, content, chosen_assignment)
+        assignment_submission = assignment_submission_model.AssignmentSubmission(student, submission_date, content,
+                                                                                 chosen_assignment)
         student.assignment_submissions.append(assignment_submission)
 
     else:
-        views.ui.print_error_message('No such assignment')
+        ui.print_error_message('No such assignment')

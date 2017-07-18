@@ -152,7 +152,8 @@ def load_assignment_submission(codecool):
 
         assignment = get_assignment_by_id(codecool, int(line[3]))
 
-        assignment_submission = assignment_submission_model.AssignmentSubmission(student, submission_date, line[2], assignment)
+        assignment_submission = assignment_submission_model.AssignmentSubmission(student, submission_date, line[2],
+                                                                                 assignment)
         assignment_submission.grade = int(line[4])
 
         student.assignment_submissions.append(assignment_submission)
