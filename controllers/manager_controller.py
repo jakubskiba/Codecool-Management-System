@@ -1,14 +1,12 @@
 from controllers import user_controller
-
-import models.mentor_model
-import models.user_model
-
-import views.user_view
-import views.manager_view
-import views.ui
-
-import controllers.user_controller
 from controllers import school_controller
+
+from models import mentor_model
+from models import user_model
+
+from views import user_view
+from views import manager_view
+from views import ui
 
 import utilities
 import os
@@ -66,7 +64,7 @@ def get_mentor(school):
         Mentor object
     """
 
-    return school_controller.get_user(school, school.mentors_list)
+    return controllers.school_controller.get_user(school, school.mentors_list)
 
 
 def get_student(school):
@@ -78,7 +76,7 @@ def get_student(school):
         Student object
     """
 
-    return school_controller.get_user(school, school.students_list)
+    return controllers.school_controller.get_user(school, school.students_list)
 
 
 def view_mentor_details(school):
@@ -98,7 +96,7 @@ def view_mentor_details(school):
 
 def add_mentor(school):
 
-    user_controller.add_user(school, 'mentor')
+    controllers.user_controller.add_user(school, 'mentor')
 
 #     """
 #     Appends mentors_list in school object by new created mentor object
@@ -163,6 +161,7 @@ def view_student_details(school):
     chosen_student = get_student(school)
     if chosen_student:
         views.manager_view.print_student(chosen_student)
+
 
 def edit_mentor(school):
     """
