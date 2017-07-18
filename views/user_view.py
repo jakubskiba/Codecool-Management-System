@@ -1,4 +1,4 @@
-from views.ui import print_menu
+from views.ui import print_menu, get_inputs
 
 
 def get_data_number():
@@ -36,4 +36,21 @@ def display_user_info(user):
         None
     """
 
+<<<<<<< Updated upstream
     print('Name: {} Surname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
+
+
+def get_new_user_data():
+
+    user_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
+    data = get_inputs(user_attributes_names, 'Provide data for user')
+
+    return data
+=======
+    ornament = '=' * 30
+    print(ornament)
+    print('LOGGED USER')
+    print(ornament)
+    print('Name: {}\nSurname: {}\nPermissions: {}'.format(user.name, user.surname, user.__class__.__name__))
+    print(ornament + '\n')
+>>>>>>> Stashed changes

@@ -76,19 +76,23 @@ def submit_assignment(school, student):
     """
     assignments_ids = [str(ass.assignment_id) for ass in school.assignments_list]
 
-    chosen_assignment_id = ''
-    while chosen_assignment_id not in assignments_ids:
-        print_all_assignments(school.assignments_list)
-        chosen_assignment_id = get_assignment_id()
-    chosen_assignment_id = int(chosen_assignment_id)
+    print_all_assignments(school.assignments_list)
+    chosen_assignment_id = get_assignment_id()
 
-    for assignment in school.assignments_list:
-        if chosen_assignment_id == assignment.assignment_id:
-            chosen_assignment = assignment
+    if chosen_assignment_id in assignments_ids:
 
-    content = get_assignment_submission_content()
+        chosen_assignment_id = int(chosen_assignment_id)
 
-    submission_date = datetime.now()
+        for assignment in school.assignments_list:
+            if chosen_assignment_id == assignment.assignment_id:
+                chosen_assignment = assignment
 
-    assignment_submission = AssignmentSubmission(student, submission_date, content, chosen_assignment)
-    student.assignment_submissions.append(assignment_submission)
+        content = get_assignment_submission_content()
+
+        submission_date = datetime.now()
+
+        assignment_submission = AssignmentSubmission(student, submission_date, content, chosen_assignment)
+        student.assignment_submissions.append(assignment_submission)
+
+    else:
+        views.ui.print_error_message('No such assignment')
