@@ -1,23 +1,25 @@
 import os
 
-from models.school_model import School
-from models.user_model import User
-from models.manager_model import Manager
-from models.administrator_model import Administrator
-from models.mentor_model import Mentor
-from models.student_model import Student
+from models import school_model
+from models import user_model  # User : wygląda jakby tu nie było potrzebne
+from models import manager_model
+from models import administrator_model
+from models import mentor_model
+from models import student_model
 
-from models.assignment_model import Assignment
-from models.assignment_submission_model import AssignmentSubmission
-from models.attendance_model import Attendance
+from models import assignment_model  # Assignment : j. w.
+from models import assignment_submission_model  # AssignmentSubmission : same story
+from models import attendance_model  # Attendance : -||-
 
 from views import school_view
 from views import manager_view
+
 from controllers import manager_controller
 from controllers import administrator_controller
 from controllers import mentor_controller
 from controllers import student_controller
 from controllers import database
+
 import utilities
 
 
@@ -56,17 +58,17 @@ def start_controller():
     while is_controller_running:
         os.system('clear')
         school_view.intro()
-        codecool = School()
+        codecool = school_model.School()
         database.load_files(codecool)
 
         user = log_in(codecool)
-        if type(user) is Manager:
+        if type(user) is manager_model.Manager:
             manager_controller.start_controller(codecool, user)
-        elif type(user) is Administrator:
+        elif type(user) is administrator_model.Administrator:
             administrator_controller.start_controller(codecool, user)
-        elif type(user) is Mentor:
+        elif type(user) is mentor_model.Mentor:
             mentor_controller.start_controller(codecool, user)
-        elif type(user) is Student:
+        elif type(user) is student_model.Student:
             student_controller.start_controller(codecool, user)
         else:
             school_view.print_no_user_message()
