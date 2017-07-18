@@ -1,7 +1,9 @@
-from models.attendance_model import Attendance
+from models import attendance_model
+
 
 def print_attendance_oneline(attendance):
     print(attendance.date, attendance.attendance_state, attendance.student)
+
 
 def print_attendance_table(attendance):
     form = '|{:<10}|{:<10}|\n'

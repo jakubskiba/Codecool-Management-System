@@ -1,7 +1,6 @@
-from views.ui import print_menu
-from views.ui import get_inputs
-from views.mentor_view import print_mentor_details
-from views.student_view import print_student_details
+from views import ui
+from views import mentor_view
+from views import student_view
 
 
 def print_manager_menu():
@@ -15,14 +14,14 @@ def print_manager_menu():
                'View students details'
                ]
 
-    print_menu(title, options, 'Exit')
+    ui.print_menu(title, options, 'Exit')
 
 
 def get_choice():
     possible_choices = ['0', '1', '2', '3', '4', '5', '6', '7']
     choice = ''
     while choice not in possible_choices:
-        choice = get_inputs(['option:'], 'Choose option')[0]
+        choice = ui.get_inputs(['option:'], 'Choose option')[0]
 
     return choice
 
@@ -38,16 +37,16 @@ def list_users(users_list):
 
 
 def get_id():
-    return get_inputs(['id:'], 'Provide id')[0]
+    return ui.get_inputs(['id:'], 'Provide id')[0]
 
 
 def print_mentor(mentor):
-    print_mentor_details(mentor)
+    mentor_view.print_mentor_details(mentor)
 
 
 # def get_new_mentor_data():
 #     mentor_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
-#     data = get_inputs(mentor_attributes_names, 'Provide data for mentor')
+#     data = ui.get_inputs(mentor_attributes_names, 'Provide data for mentor')
 
 #     return data
 
@@ -63,4 +62,4 @@ def list_all_students(students_list):
 
 
 def print_student(student):
-    print_student_details(student)
+    student_view.print_student_details(student)

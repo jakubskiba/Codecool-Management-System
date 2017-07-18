@@ -1,4 +1,4 @@
-import views.ui
+from views import ui
 import getpass
 
 

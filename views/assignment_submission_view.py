@@ -1,4 +1,4 @@
-from views.ui import print_menu
+from views import ui
 
 
 def grades(sub):
@@ -34,4 +34,4 @@ def get_number():
 
 
 def print_what_to_do():
-    print_menu('Would you like to submit assignment?', ['Show submission'], 'exit')
+    ui.print_menu('Would you like to submit assignment?', ['Show submission'], 'exit')

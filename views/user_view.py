@@ -1,4 +1,4 @@
-from views.ui import print_menu, get_inputs
+from views import ui
 
 
 def get_data_number():
@@ -22,7 +22,7 @@ def get_updated_string(data):
 def display_update_choice(user):
 
     attributes_list = [attr for attr in dir(user) if '_' not in attr]
-    print_menu('Which data to update? enter number', attributes_list, 'exit')
+    ui.print_menu('Which data to update? enter number', attributes_list, 'exit')
 
 
 def display_user_info(user):
@@ -42,6 +42,6 @@ def display_user_info(user):
 def get_new_user_data():
 
     user_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
-    data = get_inputs(user_attributes_names, 'Provide data for user')
+    data = ui.get_inputs(user_attributes_names, 'Provide data for user')
 
     return data

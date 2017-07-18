@@ -1,5 +1,5 @@
-import views.ui
-from views.assignment_view import *
+from views import ui
+from views import assignment_view
 
 
 def print_mentor_details(mentor):
@@ -50,7 +50,7 @@ def get_choice():
 
 def print_all_assignments(codecool):
     for assignment in codecool.assignments_list:
-        print_assignment_details(assignment)
+        assignment_view.print_assignment_details(assignment)
         print()
 
 

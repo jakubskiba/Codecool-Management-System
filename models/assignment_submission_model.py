@@ -1,5 +1,5 @@
-from models.student_model import Student
-from models.assignment_model import Assignment
+from models import student_model
+from models import assignment_model
 from datetime import datetime
 
 
@@ -17,7 +17,7 @@ class AssignmentSubmission():
             grade: int
         '''
 
-        if type(student) == Student and type(date_of_submission) == datetime and type(content) == str and type(assignment) == Assignment:
+        if type(student) == student_model.Student and type(date_of_submission) == datetime and type(content) == str and type(assignment) == assignment_model.Assignment:
 
             self.student = student
             self.date_of_submission = date_of_submission

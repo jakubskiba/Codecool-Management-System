@@ -1,7 +1,7 @@
-from models.user_model import User
+from models import user_model
 
 
-class Student(User):
+class Student(user_model.User):
     """
     Attributes:
         name (str)
