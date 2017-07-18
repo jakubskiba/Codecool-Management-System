@@ -20,7 +20,7 @@ import controllers.student_controller
 import utilities
 
 
-def get_user(school, users_list):
+def get_user(codecool, users_list):
     """
     Ask user for id
 
