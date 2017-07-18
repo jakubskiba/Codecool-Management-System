@@ -12,7 +12,7 @@ import views.ui
 from models.assignment_model import Assignment
 from datetime import datetime
 
-import controllers.user_controller
+from controllers.user_controller import add_user
 
 import utilities
 
@@ -121,32 +121,33 @@ def choose_submission_by_id(id_, student):
 
 
 def add_student(codecool):
-    """
-    Append student to students_list in codecool object
+    add_user(codecool, 'student')
+#     """
+#     Append student to students_list in codecool object
 
-    Args:
-        codecool (obj): School object - aggregate all users and assignments
+#     Args:
+#         codecool (obj): School object - aggregate all users and assignments
 
-    Returns:
-        None
-    """
+#     Returns:
+#         None
+#     """
 
-    student_data = get_new_student_data()
+#     student_data = get_new_student_data()
 
-    name = student_data[0]
-    surname = student_data[1]
-    login = student_data[2]
-    password = student_data[3]
-    email = student_data[4]
-    phone = student_data[5]
+#     name = student_data[0]
+#     surname = student_data[1]
+#     login = student_data[2]
+#     password = student_data[3]
+#     email = student_data[4]
+#     phone = student_data[5]
 
-    id_ = User.last_id + 1
+#     id_ = User.last_id + 1
 
-    password = utilities.hash_password(password)
+#     password = utilities.hash_password(password)
 
-    new_student = Student(name, surname, login, password, email, phone, id_)
+#     new_student = Student(name, surname, login, password, email, phone, id_)
 
-    codecool.students_list.append(new_student)
+#     codecool.students_list.append(new_student)
 
 
 def get_user(codecool, users_list):
