@@ -1,8 +1,8 @@
 import os
 
-import views.user_view
-from views.student_view import *
-from models.assignment_submission_model import AssignmentSubmission
+from views import user_view
+from views import student_view
+from models import assignment_submission_model
 from datetime import datetime
 
 
@@ -22,8 +22,8 @@ def start_controller(school, student):
     while choice != '0':
         os.system('clear')
         views.user_view.display_user_info(student)
-        print_student_menu()
-        choice = get_choice()
+        student_view.print_student_menu()
+        choice = student_view.get_choice()
 
         if choice == '1':
             submit_assignment(school, student)
@@ -46,7 +46,7 @@ def get_assignment_submissions(student):
         None
     """
 
-    print_all_submissions(student.assignment_submissions)
+    student_view.print_all_submissions(student.assignment_submissions)
 
 
 def list_assignments(school):
@@ -60,7 +60,7 @@ def list_assignments(school):
         None
     """
 
-    print_all_assignments(school.assignments_list)
+    student_view.print_all_assignments(school.assignments_list)
 
 
 def submit_assignment(school, student):
@@ -76,8 +76,8 @@ def submit_assignment(school, student):
     """
     assignments_ids = [str(ass.assignment_id) for ass in school.assignments_list]
 
-    print_all_assignments(school.assignments_list)
-    chosen_assignment_id = get_assignment_id()
+    student_view.print_all_assignments(school.assignments_list)
+    chosen_assignment_id = student_view.get_assignment_id()
 
     if chosen_assignment_id in assignments_ids:
 
@@ -87,11 +87,11 @@ def submit_assignment(school, student):
             if chosen_assignment_id == assignment.assignment_id:
                 chosen_assignment = assignment
 
-        content = get_assignment_submission_content()
+        content = student_view.get_assignment_submission_content()
 
         submission_date = datetime.now()
 
-        assignment_submission = AssignmentSubmission(student, submission_date, content, chosen_assignment)
+        assignment_submission = assignment_submission_model.AssignmentSubmission(student, submission_date, content, chosen_assignment)
         student.assignment_submissions.append(assignment_submission)
 
     else:
