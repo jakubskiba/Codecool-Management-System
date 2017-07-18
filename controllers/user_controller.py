@@ -1,5 +1,6 @@
 from models.user_model import User
-from views.user_view import *
+import views.user_view
+import utilities
 
 
 def start_controller(user):
@@ -41,3 +42,48 @@ def updater(user, which_data):
         user.phone = get_updated_string(data_dict[5])
     elif which_data == '6':
         user.surname = get_updated_string(data_dict[6])
+
+
+def add_user(school, kind='student'):
+    """
+    Appends users_list in school object by new created user object
+    Prints error message if login is not unique
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        kind (str): information lets add object to proper list
+
+    Returns:
+        None
+    """
+
+    user_data = views.user_view.get_new_user_data()
+
+    name = user_data[0]
+    surname = user_data[1]
+    login = user_data[2]
+    password = user_data[3]
+    email = user_data[4]
+    phone = user_data[5]
+
+    id_ = User.last_id + 1
+
+    password = utilities.hash_password(password)
+
+    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
+    users_logins = [user.login for user in users]
+
+    if kind == 'mentor':
+        users_list = school.mentors_list
+    else:
+        users_list = school.students_list
+
+    if login not in users_logins:
+        new_user = User(name, surname, login, password, email, phone, id_)
+        users_list.append(new_user)
+    else:
+        views.ui.print_error_message('login already in use')
+
+
+def get_new_user_data():
+    pass

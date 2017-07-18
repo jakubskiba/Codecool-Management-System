@@ -1,3 +1,5 @@
+from controllers import user_controller
+
 import models.mentor_model
 import models.user_model
 
@@ -95,38 +97,41 @@ def view_mentor_details(school):
 
 
 def add_mentor(school):
-    """
-    Appends mentors_list in school object by new created mentor object
-    Prints error message if login is not unique
 
-    Args:
-        school (obj): school object - aggregate all users and assignments
+    user_controller.add_user(school, 'mentor')
 
-    Returns:
-        None
-    """
+#     """
+#     Appends mentors_list in school object by new created mentor object
+#     Prints error message if login is not unique
 
-    mentor_data = views.manager_view.get_new_mentor_data()
+#     Args:
+#         school (obj): school object - aggregate all users and assignments
 
-    name = mentor_data[0]
-    surname = mentor_data[1]
-    login = mentor_data[2]
-    password = mentor_data[3]
-    email = mentor_data[4]
-    phone = mentor_data[5]
+#     Returns:
+#         None
+#     """
 
-    id_ = models.user_model.User.last_id + 1
+#     mentor_data = views.manager_view.get_new_mentor_data()
 
-    password = utilities.hash_password(password)
+#     name = mentor_data[0]
+#     surname = mentor_data[1]
+#     login = mentor_data[2]
+#     password = mentor_data[3]
+#     email = mentor_data[4]
+#     phone = mentor_data[5]
 
-    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
-    users_logins = [user.login for user in users]
+#     id_ = models.user_model.User.last_id + 1
 
-    if login not in users_logins:
-        new_mentor = models.mentor_model.Mentor(name, surname, login, password, email, phone, id_)
-        school.mentors_list.append(new_mentor)
-    else:
-        views.ui.print_error_message('login already in use')
+#     password = utilities.hash_password(password)
+
+#     users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
+#     users_logins = [user.login for user in users]
+
+#     if login not in users_logins:
+#         new_mentor = models.mentor_model.Mentor(name, surname, login, password, email, phone, id_)
+#         school.mentors_list.append(new_mentor)
+#     else:
+#         views.ui.print_error_message('login already in use')
 
 
 def remove_mentor(school):
