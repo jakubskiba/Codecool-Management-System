@@ -6,6 +6,7 @@ import views.manager_view
 import views.ui
 
 import controllers.user_controller
+from controllers import school_controller
 
 import utilities
 import os
@@ -51,37 +52,7 @@ def start_controller(school, manager):
         elif choice == '7':
             view_student_details(school)
 
-
-
         input('Press enter')
-
-
-def get_user(school, users_list):
-    """
-    Ask user for id
-
-    Args:
-        school (obj): school object - aggregate all users and assignments
-        user_list (list): in this list user will be searched
-
-    Returns:
-        User object
-    """
-
-    possible_ids = [str(user.id_) for user in users_list]
-    views.manager_view.list_users(users_list)
-    chosen_user_id = views.manager_view.get_id()
-
-    if chosen_user_id in possible_ids:
-        chosen_user_id = int(chosen_user_id)
-
-        for user in users_list:
-            if chosen_user_id == user.id_:
-                chosen_user = user
-
-        return chosen_user
-    else:
-        views.ui.print_error_message('No such user')
 
 
 def get_mentor(school):
@@ -93,7 +64,7 @@ def get_mentor(school):
         Mentor object
     """
 
-    return get_user(school, school.mentors_list)
+    return school_controller.get_user(school, school.mentors_list)
 
 
 def get_student(school):
@@ -105,7 +76,7 @@ def get_student(school):
         Student object
     """
 
-    return get_user(school, school.students_list)
+    return school_controller.get_user(school, school.students_list)
 
 
 def view_mentor_details(school):

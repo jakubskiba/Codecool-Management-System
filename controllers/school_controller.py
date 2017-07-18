@@ -20,6 +20,34 @@ import controllers.student_controller
 import utilities
 
 
+def get_user(school, users_list):
+    """
+    Ask user for id
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+        user_list (list): in this list user will be searched
+
+    Returns:
+        User object
+    """
+
+    possible_ids = [str(user.id_) for user in users_list]
+    views.manager_view.list_users(users_list)
+    chosen_user_id = views.manager_view.get_id()
+
+    if chosen_user_id in possible_ids:
+        chosen_user_id = int(chosen_user_id)
+
+        for user in users_list:
+            if chosen_user_id == user.id_:
+                chosen_user = user
+
+        return chosen_user
+    else:
+        views.ui.print_error_message('No such user')
+
+
 def get_user_by_id(codecool, id_):
     """
     Searches user by id
