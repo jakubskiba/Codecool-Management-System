@@ -162,17 +162,19 @@ def get_user(codecool, users_list):
     """
 
     possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        print_students_list(codecool)
-        chosen_user_id = get_id()
-    chosen_user_id = int(chosen_user_id)
+    views.manager_view.list_users(users_list)
+    chosen_user_id = views.manager_view.get_id()
 
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
+    if chosen_user_id in possible_ids:
+        chosen_user_id = int(chosen_user_id)
 
-    return chosen_user
+        for user in users_list:
+            if chosen_user_id == user.id_:
+                chosen_user = user
+
+        return chosen_user
+    else:
+        views.ui.print_error_message('No such user')
 
 
 def get_student(codecool):
@@ -218,6 +220,12 @@ def edit_student(codecool):
     controllers.user_controller.start_controller(student_to_change)
 
 
+def print_student_details(codecool):
+    chosen_student = get_student(school)
+    if chosen_student:
+        views.manager_view.print_student(chosen_student)
+
+
 def start_controller(codecool, mentor):
     """
     Switches between options
@@ -240,14 +248,16 @@ def start_controller(codecool, mentor):
         if choice == '1':
             print_students_list(codecool)
         elif choice == '2':
-            add_new_assignment(codecool)
+            print_student_details(codecoool) 
         elif choice == '3':
-            grade_assignment(codecool)
+            add_new_assignment(codecool)
         elif choice == '4':
-            add_student(codecool)
+            grade_assignment(codecool)
         elif choice == '5':
-            remove_student(codecool)
+            add_student(codecool)
         elif choice == '6':
+            remove_student(codecool)
+        elif choice == '7':
             edit_student(codecool)
 
         input('Press enter')
