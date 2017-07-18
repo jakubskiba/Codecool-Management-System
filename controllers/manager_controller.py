@@ -5,6 +5,8 @@ import views.user_view
 import views.manager_view
 import views.ui
 
+import controllers.user_controller
+
 import utilities
 import os
 
@@ -41,10 +43,15 @@ def start_controller(school, manager):
             remove_mentor(school)
 
         elif choice == '5':
-            views.manager_view.list_all_students(school.students_list)
+            edit_mentor(school)
 
         elif choice == '6':
+            views.manager_view.list_all_students(school.students_list)
+
+        elif choice == '7':
             view_student_details(school)
+
+
 
         input('Press enter')
 
@@ -176,3 +183,18 @@ def view_student_details(school):
 
     chosen_student = get_student(school)
     views.manager_view.print_student(chosen_student)
+
+def edit_mentor(school):
+    """
+    Changes mentor data
+
+    Args:
+        school (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    mentor_to_change = get_mentor(school)
+    controllers.user_controller.start_controller(mentor_to_change)
+
