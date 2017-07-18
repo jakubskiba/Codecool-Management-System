@@ -185,7 +185,8 @@ def view_student_details(school):
     """
 
     chosen_student = get_student(school)
-    views.manager_view.print_student(chosen_student)
+    if chosen_student:
+        views.manager_view.print_student(chosen_student)
 
 def edit_mentor(school):
     """
