@@ -1,5 +1,5 @@
-from models.user_model import User
-import views.user_view
+from models import user_model
+from views import user_view
 import utilities
 
 
@@ -66,7 +66,7 @@ def add_user(school, kind='student'):
     email = user_data[4]
     phone = user_data[5]
 
-    id_ = User.last_id + 1
+    id_ = user_model.User.last_id + 1
 
     password = utilities.hash_password(password)
 
@@ -79,7 +79,7 @@ def add_user(school, kind='student'):
         users_list = school.students_list
 
     if login not in users_logins:
-        new_user = User(name, surname, login, password, email, phone, id_)
+        new_user = user_model.User(name, surname, login, password, email, phone, id_)
         users_list.append(new_user)
     else:
         views.ui.print_error_message('login already in use')
