@@ -69,17 +69,19 @@ def get_user(school, users_list):
     """
 
     possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        views.manager_view.list_users(users_list)
-        chosen_user_id = views.manager_view.get_id()
-    chosen_user_id = int(chosen_user_id)
+    views.manager_view.list_users(users_list)
+    chosen_user_id = views.manager_view.get_id()
 
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
+    if chosen_user_id in possible_ids:
+        chosen_user_id = int(chosen_user_id)
 
-    return chosen_user
+        for user in users_list:
+            if chosen_user_id == user.id_:
+                chosen_user = user
+
+        return chosen_user
+    else:
+        views.ui.print_error_message('No such user')
 
 
 def get_mentor(school):
@@ -117,7 +119,8 @@ def view_mentor_details(school):
     """
 
     chosen_mentor = get_mentor(school)
-    views.manager_view.print_mentor(chosen_mentor)
+    if chosen_mentor:
+        views.manager_view.print_mentor(chosen_mentor)
 
 
 def add_mentor(school):
