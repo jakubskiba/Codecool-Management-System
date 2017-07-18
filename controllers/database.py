@@ -1,12 +1,13 @@
 from datetime import datetime
-from models.user_model import User
-from models.manager_model import Manager
-from models.administrator_model import Administrator
-from models.mentor_model import Mentor
-from models.student_model import Student
-from models.assignment_model import Assignment
-from models.assignment_submission_model import AssignmentSubmission
-from models.attendance_model import Attendance
+from models import user_model
+from models import manager_model
+from models import administrator_model
+from models import mentor_model
+from models import student_model 
+from models import assignment_model
+from models import assignment_submission_model
+from models import attendance_model
+
 
 
 def get_user_by_id(codecool, id_):
@@ -55,8 +56,8 @@ def load_users(codecool):
         None
     """
 
-    files_dict = {'csv/manager.csv': Manager, 'csv/administrator.csv': Administrator,
-                  'csv/mentor.csv': Mentor, 'csv/student.csv': Student}
+    files_dict = {'csv/manager.csv': manager_model.Manager, 'csv/administrator.csv': administrator_model.Administrator,
+                  'csv/mentor.csv': mentor_model.Mentor, 'csv/student.csv': student_model.Student}
     for filename in files_dict:
         with open(filename) as datafile:
             content = datafile.readlines()
@@ -97,7 +98,7 @@ def load_assignments(codecool):
 
     for line in content:
         deadline = datetime(int(line[1][0]), int(line[1][1]), int(line[1][2]))
-        assignment = Assignment(line[0], deadline, int(line[2]))
+        assignment = assignment_model.Assignment(line[0], deadline, int(line[2]))
         codecool.assignments_list.append(assignment)
 
 
@@ -123,7 +124,7 @@ def load_attendance(codecool):
         date = datetime(int(line[0][0]), int(line[0][1]), int(line[0][2]))
         student = get_user_by_id(codecool, line[2])
 
-        attendance = Attendance(date, line[1], student)
+        attendance = attendance_model.Attendance(date, line[1], student)
         student.attendance_list.append(attendance)
 
 
@@ -152,7 +153,7 @@ def load_assignment_submission(codecool):
 
         assignment = get_assignment_by_id(codecool, int(line[3]))
 
-        assignment_submission = AssignmentSubmission(student, submission_date, line[2], assignment)
+        assignment_submission = assignment_model.AssignmentSubmission(student, submission_date, line[2], assignment)
         assignment_submission.grade = int(line[4])
 
         student.assignment_submissions.append(assignment_submission)
@@ -211,8 +212,8 @@ def load_files(codecool):
     load_assignments(codecool)
     load_attendance(codecool)
     load_assignment_submission(codecool)
-    User.last_id = get_last_user_id(codecool)
-    Assignment.last_id = get_last_assignment_id(codecool)
+    user_model.User.last_id = get_last_user_id(codecool)
+    assignment_model.Assignment.last_id = get_last_assignment_id(codecool)
 
 
 def save_users(codecool):
