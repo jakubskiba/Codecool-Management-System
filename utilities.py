@@ -26,9 +26,11 @@ def hash(content):
         content (str)
     """
 
-    content = chr(ord(content)-3)
+    new_content = ''
+    for char in content:
+        new_content += chr(ord(char)-3)
 
-    return content
+    return new_content
 
 
 def dehash(content):
@@ -39,6 +41,8 @@ def dehash(content):
         content (str)
     """
 
-    content = chr(ord(content)+3)
+    new_content = ''
+    for char in content:
+        new_content += chr(ord(char)+3)
 
-    return content
+    return new_content
