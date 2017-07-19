@@ -19,8 +19,6 @@ def start_controller(school, administrator):
         None
     """
 
-    print(school.mails[0].receiver.name)
-
     choice = ''
     while choice != '0':
         os.system('clear')
