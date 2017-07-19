@@ -12,12 +12,58 @@ from views import user_view
 from views import manager_view
 
 from models import assignment_model
+from models import attendance_model
 from datetime import datetime
 
 from controllers import user_controller
 from controllers import school_controller
 
 import utilities
+
+
+def get_attendance_object(student, date):
+    """
+    Returns object of Attendance class belonging to given user and having given date
+
+    Args:
+        student (Student): object of Student class
+        date (datetime): datetime object
+
+    Returns:
+        attendance (Attendance): object of Attendabce class belonging to given user and having given date
+
+    """
+
+    for attendance in student.attendance_list:
+        if attendance.date.date() == date.date():
+            return attendance
+
+
+def check_today_attendance(codecool):
+    """
+    Checks today attendance of the whole class
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    today = datetime.now()
+    if get_attendance_object(codecool.students_list[0], today):
+        ui.print_error_message('Today attendance is already checked')
+    else:
+        ui.print_message('''Checking attendance for today.
+        0 - absent
+        0.5 - late
+        1 - present''')
+        for student in codecool.students_list:
+            attendance_state = ''
+            while attendance_state not in ['0', '0.5', '1']:
+                attendance_state = ui.get_input(student.name + ' ' + student.surname)
+            attendance_state = float(attendance_state)
+            student.attendance_list.append(attendance_model.Attendance(today, attendance_state, student))
 
 
 def add_new_assignment(codecool):
@@ -29,7 +75,6 @@ def add_new_assignment(codecool):
 
     Returns:
         None
-
     """
 
     assignment_view.print_add_assignment_title()
@@ -209,5 +254,7 @@ def start_controller(codecool, mentor):
             remove_student(codecool)
         elif choice == '7':
             edit_student(codecool)
+        elif choice == '8':
+            check_today_attendance(codecool)
 
         input('Press enter')

@@ -253,3 +253,17 @@ def get_input(message):
     answer = input(message + ': ')
 
     return answer
+
+
+def print_message(message):
+    """
+    Displays a message
+
+    Args:
+        message(str): message to be displayed
+
+    Returns:
+        None
+    """
+
+    print(message)
