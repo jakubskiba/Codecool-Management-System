@@ -7,6 +7,7 @@ from models import student_model
 from models import assignment_model
 from models import assignment_submission_model
 from models import attendance_model
+from models import mail_model
 
 
 def make_data_backup():
@@ -176,6 +177,32 @@ def load_assignment_submission(codecool):
         assignment_submission.grade = int(line[4])
 
         student.assignment_submissions.append(assignment_submission)
+
+
+def load_mails(codecool):
+    """
+
+    """
+
+    with open('csv/mails.csv') as datafile:
+        content = datafile.readlines()
+
+    content = [line.strip() for line in content]
+    content = [line.split('|') for line in content]
+    content = [[line[0].split('-'), int(line[1]), int(line[2]), line[3], line[4]] for line in content]
+
+    for line in content:
+        mail_date = line[0]
+        mail_date = datetime(mail_date[0], mail_date[1], mail_date[2])
+
+        sender = get_user_by_id(codecool, line[1])
+        receiver = get_user_by_id(codecool, line[2])
+
+        topic = line[3]
+        message = line[4]
+
+        mail = mail_model.Mail(date, sender, receiver, topic, message)
+        codecool.mails.append(mail)
 
 
 def get_last_user_id(codecool):
