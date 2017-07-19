@@ -66,6 +66,37 @@ def check_today_attendance(codecool):
             student.attendance_list.append(attendance_model.Attendance(today, attendance_state, student))
 
 
+def change_chosen_attendance(codecool):
+    """
+    Change status of chosen attendence object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+    try:
+        chosen_student = get_student(codecool)
+        mentor_view.print_student_attendances(chosen_student)
+        try:
+            attendance_id_ = ui.get_input('Choose attendance id')
+            ui.print_message(
+                'current state is: ' + str(chosen_student.attendance_list[int(attendance_id_)-1].attendance_state))
+            ui.print_message('''Possible attendance grades:
+            0 - absent
+            0.5 - late
+            1 - present''')
+            attendance_state = ''
+            while attendance_state not in ['0', '0.5', '1']:
+                attendance_state = ui.get_input('Choose new attendance grade')
+            chosen_student.attendance_list[int(attendance_id_)-1].attendance_state = float(attendance_state)
+        except (IndexError, ValueError) as er:
+            ui.print_error_message('There is no such attendance')
+    except AttributeError:
+        pass
+
+
 def add_new_assignment(codecool):
     """
     Append assignments_list by new created assignment object
@@ -256,5 +287,7 @@ def start_controller(codecool, mentor):
             edit_student(codecool)
         elif choice == '8':
             check_today_attendance(codecool)
+        elif choice == '9':
+            change_chosen_attendance(codecool)
 
         input('Press enter')
