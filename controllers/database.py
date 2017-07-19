@@ -8,6 +8,7 @@ from models import assignment_model
 from models import assignment_submission_model
 from models import attendance_model
 from models import mail_model
+import utilities
 
 
 def make_data_backup():
@@ -200,8 +201,8 @@ def load_mails(codecool):
 
         state = line[1]
 
-        topic = line[4]
-        message = line[5]
+        topic = utilities.dehash(line[4])
+        message = utilities.dehash(line[5])
 
         mail = mail_model.Mail(mail_date, sender, receiver, topic, message, state)
         codecool.mails.append(mail)
@@ -379,8 +380,8 @@ def save_mails(codecool):
         state = mail.state
         sender = str(mail.sender.id_)
         receiver = str(mail.receiver.id_)
-        topic = mail.topic
-        message = mail.message
+        topic = utilities.hash(mail.topic)
+        message =  utilities.hash(mail.message)
         data_to_save.append([date, state, sender, receiver, topic, message])
 
     data_to_save = ['|'.join(line) for line in data_to_save]
