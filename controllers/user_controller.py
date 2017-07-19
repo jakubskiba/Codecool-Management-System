@@ -73,23 +73,32 @@ def add_user(school, kind='student'):
 
     password = utilities.hash_password(password)
 
-    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
-    users_logins = [user.login for user in users]
-
     if kind == 'mentor':
         users_list = school.mentors_list
     else:
         users_list = school.students_list
 
-    if login not in users_logins:
+    if is_login_available():
         if kind == 'student':
             new_user = student_model.Student(name, surname, login, password, email, phone, id_)
         else:
             new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
         users_list.append(new_user)
+
+
+def check_new_data(data):
+    
+    if not data[0].isalpha() or not data[1].isalpha():  # checks if name or surname are alphabetical and not empty
+        raise TypeError
+    
+
+def is_login_available(school, login):
+
+    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
+    users_logins = [user.login for user in users]
+
+    if login not in users_logins:
+        return True
     else:
         ui.print_error_message('login already in use')
-
-
-def get_new_user_data():
-    pass
+        return False
