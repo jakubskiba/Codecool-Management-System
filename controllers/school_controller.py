@@ -1,21 +1,27 @@
 import os
+import sys
 
-from models.school_model import School
-from models.user_model import User
-from models.manager_model import Manager
-from models.administrator_model import Administrator
-from models.mentor_model import Mentor
-from models.student_model import Student
+from models import school_model
+from models import user_model  # User : wygląda jakby tu nie było potrzebne
+from models import manager_model
+from models import administrator_model
+from models import mentor_model
+from models import student_model
 
-from models.assignment_model import Assignment
-from models.assignment_submission_model import AssignmentSubmission
-from models.attendance_model import Attendance
-from views.school_view import *
-import controllers.manager_controller
-import controllers.administrator_controller
-import controllers.mentor_controller
-import controllers.student_controller
-import controllers.database
+from models import assignment_model  # Assignment : j. w.
+from models import assignment_submission_model  # AssignmentSubmission : same story
+from models import attendance_model  # Attendance : -||-
+
+from views import school_view
+from views import manager_view
+from views import ui
+
+from controllers import manager_controller
+from controllers import administrator_controller
+from controllers import mentor_controller
+from controllers import student_controller
+from controllers import database
+
 import utilities
 
 
@@ -30,8 +36,8 @@ def log_in(codecool):
         User (obj)
     """
 
-    login = get_login()
-    password = get_password()
+    login = school_view.get_login()
+    password = school_view.get_password()
 
     password = utilities.hash_password(password)
 
@@ -53,27 +59,33 @@ def start_controller():
 
     while is_controller_running:
         os.system('clear')
-        intro()
-        codecool = School()
-        controllers.database.load_files(codecool)
+        school_view.intro()
+        codecool = school_model.School()
+        try:
+            database.load_files(codecool)
+        except (FileNotFoundError, IndexError, ValueError) as er:
+            ui.print_error_message('Database files are not complete! Restore previous version of csv files.')
+            ui.get_input('Press ENTER to exit the program!')
+            sys.exit(0)
 
         user = log_in(codecool)
-        if type(user) is Manager:
-            controllers.manager_controller.start_controller(codecool, user)
-        elif type(user) is Administrator:
-            controllers.administrator_controller.start_controller(codecool, user)
-        elif type(user) is Mentor:
-            controllers.mentor_controller.start_controller(codecool, user)
-        elif type(user) is Student:
-            controllers.student_controller.start_controller(codecool, user)
+        if type(user) is manager_model.Manager:
+            manager_controller.start_controller(codecool, user)
+        elif type(user) is administrator_model.Administrator:
+            administrator_controller.start_controller(codecool, user)
+        elif type(user) is mentor_model.Mentor:
+            mentor_controller.start_controller(codecool, user)
+        elif type(user) is student_model.Student:
+            student_controller.start_controller(codecool, user)
         else:
-            print_no_user_message()
+            school_view.print_no_user_message()
 
-        controllers.database.save_files(codecool)
-        print_exit_message()
+        database.save_files(codecool)
+        school_view.print_exit_message()
 
-        if get_exit_decision():
+        if school_view.get_exit_decision():
             is_controller_running = False
+
 
 def get_user(school, users_list):
     """
@@ -88,8 +100,8 @@ def get_user(school, users_list):
     """
 
     possible_ids = [str(user.id_) for user in users_list]
-    views.manager_view.list_users(users_list)
-    chosen_user_id = views.manager_view.get_id()
+    manager_view.list_users(users_list)
+    chosen_user_id = manager_view.get_id()
 
     if chosen_user_id in possible_ids:
         chosen_user_id = int(chosen_user_id)
@@ -100,4 +112,4 @@ def get_user(school, users_list):
 
         return chosen_user
     else:
-        views.ui.print_error_message('No such user')
+        ui.print_error_message('No such user')

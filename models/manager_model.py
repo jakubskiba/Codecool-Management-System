@@ -1,5 +1,5 @@
-from models.user_model import User
+from models import user_model
 
 
-class Manager(User):
+class Manager(user_model.User):
     pass
