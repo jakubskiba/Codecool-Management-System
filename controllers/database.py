@@ -189,19 +189,21 @@ def load_mails(codecool):
 
     content = [line.strip() for line in content]
     content = [line.split('|') for line in content]
-    content = [[line[0].split('-'), int(line[1]), int(line[2]), line[3], line[4]] for line in content]
+    content = [[line[0].split('-'), line[1], int(line[2]), int(line[3]), line[4], line[5]] for line in content]
 
     for line in content:
         mail_date = line[0]
         mail_date = datetime(int(mail_date[0]), int(mail_date[1]), int(mail_date[2]))
 
-        sender = get_user_by_id(codecool, line[1])
-        receiver = get_user_by_id(codecool, line[2])
+        sender = get_user_by_id(codecool, line[2])
+        receiver = get_user_by_id(codecool, line[3])
 
-        topic = line[3]
-        message = line[4]
+        state = line[1]
 
-        mail = mail_model.Mail(mail_date, sender, receiver, topic, message)
+        topic = line[4]
+        message = line[5]
+
+        mail = mail_model.Mail(mail_date, sender, receiver, topic, message, state)
         codecool.mails.append(mail)
 
 
