@@ -8,3 +8,4 @@ class Mail():
         self.topic = topic
         self.message = message
         self.date = date
+        self.state = 'unread'

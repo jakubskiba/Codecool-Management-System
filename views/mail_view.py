@@ -18,13 +18,18 @@ def get_choice():
 
 
 def print_mail_list(mail_list):
-    headers = ['idx', 'From', 'To', 'Date', 'Title']
+    headers = ['id', 'From', 'To', 'Date', 'Title']
     table = []
     for i in range(len(mail_list)):
         mail = mail_list[i]
         sender_full_name = mail.sender.name + ' ' + mail.sender.surname
         receiver_full_name = mail.receiver.name + ' ' + mail.receiver.surname
-        table.append([i, sender_full_name, receiver_full_name, str(mail.date), str(mail.topic)])
+        if mail.state == 'unread':
+            state = '[new]'
+        else:
+            state = ''
+        idx = str(i) + state
+        table.append([idx, sender_full_name, receiver_full_name, str(mail.date), str(mail.topic)])
 
     ui.print_table(table, headers)
 

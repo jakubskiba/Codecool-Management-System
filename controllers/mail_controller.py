@@ -39,6 +39,7 @@ def show_incoming_mail(codecool, user):
         idx = int(idx)
         mail = inbox[idx]
         mail_view.print_mail_verbosely(mail)
+        mail.state = 'read'
 
 
 def show_outcoming_mail(codecool, user):
