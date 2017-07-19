@@ -368,6 +368,28 @@ def save_assignment_submission(codecool):
         datafile.write(data_to_save)
 
 
+def save_mails(codecool):
+    """
+
+    """
+
+    data_to_save = []
+    for mail in codecool.mails:
+        date = str(mail.date.date())
+        state = mail.state
+        sender = str(mail.sender.id_)
+        receiver = str(mail.receiver.id_)
+        topic = mail.topic
+        message = mail.message
+        data_to_save.append([date, state, sender, receiver, topic, message])
+
+    data_to_save = ['|'.join(line) for line in data_to_save]
+    data_to_save = '\n'.join(data_to_save)
+
+    with open('csv/mails.csv', 'w') as datafile:
+        datafile.write(data_to_save)
+
+
 def save_files(codecool):
     """
     Saves data to files
@@ -383,3 +405,4 @@ def save_files(codecool):
     save_assignments(codecool)
     save_attendance(codecool)
     save_assignment_submission(codecool)
+    save_mails(codecool)
