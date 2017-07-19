@@ -61,3 +61,16 @@ def print_mail_verbosely(mail):
     table.append(message)
     ui.print_table(message, headers)
 
+
+def get_receiver():
+
+    return ui.get_inputs(['id'], 'Provide id')[0]
+
+
+def print_no_receiver_error():
+
+    ui.print_error_message('No such user')
+
+
+def get_mail_data():
+    return ui.get_inputs(['Title:', 'Message:'], 'Provide title and message of mail')
