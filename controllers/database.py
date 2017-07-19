@@ -193,7 +193,7 @@ def load_mails(codecool):
 
     for line in content:
         mail_date = line[0]
-        mail_date = datetime(mail_date[0], mail_date[1], mail_date[2])
+        mail_date = datetime(int(mail_date[0]), int(mail_date[1]), int(mail_date[2]))
 
         sender = get_user_by_id(codecool, line[1])
         receiver = get_user_by_id(codecool, line[2])
@@ -201,7 +201,7 @@ def load_mails(codecool):
         topic = line[3]
         message = line[4]
 
-        mail = mail_model.Mail(date, sender, receiver, topic, message)
+        mail = mail_model.Mail(mail_date, sender, receiver, topic, message)
         codecool.mails.append(mail)
 
 
@@ -258,6 +258,7 @@ def load_files(codecool):
     load_assignments(codecool)
     load_attendance(codecool)
     load_assignment_submission(codecool)
+    load_mails(codecool)
     user_model.User.last_id = get_last_user_id(codecool)
     assignment_model.Assignment.last_id = get_last_assignment_id(codecool)
     make_data_backup()
