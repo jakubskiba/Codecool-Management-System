@@ -1,4 +1,5 @@
 import os
+import sys
 
 from models import school_model
 from models import user_model  # User : wygląda jakby tu nie było potrzebne
@@ -60,7 +61,12 @@ def start_controller():
         os.system('clear')
         school_view.intro()
         codecool = school_model.School()
-        database.load_files(codecool)
+        try:
+            database.load_files(codecool)
+        except (FileNotFoundError, IndexError, ValueError) as er:
+            ui.print_error_message('Database files are not complete! Restore previous version of csv files.')
+            ui.get_input('Press ENTER to exit the program!')
+            sys.exit(0)
 
         user = log_in(codecool)
         if type(user) is manager_model.Manager:

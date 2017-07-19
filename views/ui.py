@@ -237,3 +237,19 @@ def print_error_message(message):
     """
 
     print('\n\033[93mError:', message, '\033[0m')
+
+
+def get_input(message):
+    """
+    Gets input from the user.
+
+    Args:
+        message (str): message to display
+
+    Returns:
+        answer (str): string entered by user
+    """
+
+    answer = input(message + ': ')
+
+    return answer
