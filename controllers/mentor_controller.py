@@ -291,6 +291,6 @@ def start_controller(codecool, mentor):
         elif choice == '9':
             change_chosen_attendance(codecool)
         elif choice == '10':
-            mail_controller.start_controller(school, mentor)
+            mail_controller.start_controller(codecool, mentor)
 
         input('Press enter')
