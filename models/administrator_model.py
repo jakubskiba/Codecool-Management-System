@@ -1,5 +1,5 @@
-from models.user_model import User
+from models import user_model
 
 
-class Administrator(User):
+class Administrator(user_model.User):
     pass

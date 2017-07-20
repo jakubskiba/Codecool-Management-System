@@ -1,13 +1,101 @@
-from models.mentor_model import Mentor
-from models.user_model import User
-from views.mentor_view import *
-from views.assignment_view import *
-from models.assignment_model import Assignment
+import os
+# Mentor : jest szansa że to jest niepotrzebne, ale mózg mi paruje i na wszelkie wypadek nie usunem
+from models import mentor_model
+from models import user_model  # User : to tesz
+from models import student_model  # Student : i to
+
+from views import mentor_view
+from views import assignment_view
+from views import assignment_submission_view
+from views import ui
+from views import user_view
+from views import manager_view
+
+from models import assignment_model
+from models import attendance_model
 from datetime import datetime
-import views.ui
-from views.assignment_submission_view import *
-from models.student_model import Student
-import controllers.user_controller
+
+from controllers import user_controller
+from controllers import school_controller
+from controllers import mail_controller
+
+import utilities
+
+
+def get_attendance_object(student, date):
+    """
+    Returns object of Attendance class belonging to given user and having given date
+
+    Args:
+        student (Student): object of Student class
+        date (datetime): datetime object
+
+    Returns:
+        attendance (Attendance): object of Attendabce class belonging to given user and having given date
+
+    """
+
+    for attendance in student.attendance_list:
+        if attendance.date.date() == date.date():
+            return attendance
+
+
+def check_today_attendance(codecool):
+    """
+    Checks today attendance of the whole class
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    today = datetime.now()
+    if get_attendance_object(codecool.students_list[0], today):
+        ui.print_error_message('Today attendance is already checked')
+    else:
+        ui.print_message('''Checking attendance for today.
+        0 - absent
+        0.5 - late
+        1 - present''')
+        for student in codecool.students_list:
+            attendance_state = ''
+            while attendance_state not in ['0', '0.5', '1']:
+                attendance_state = ui.get_input(student.name + ' ' + student.surname)
+            attendance_state = float(attendance_state)
+            student.attendance_list.append(attendance_model.Attendance(today, attendance_state, student))
+
+
+def change_chosen_attendance(codecool):
+    """
+    Change status of chosen attendence object
+
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+    try:
+        chosen_student = get_student(codecool)
+        mentor_view.print_student_attendances(chosen_student)
+        try:
+            attendance_id_ = ui.get_input('Choose attendance id')
+            ui.print_message(
+                'current state is: ' + str(chosen_student.attendance_list[int(attendance_id_)-1].attendance_state))
+            ui.print_message('''Possible attendance grades:
+            0 - absent
+            0.5 - late
+            1 - present''')
+            attendance_state = ''
+            while attendance_state not in ['0', '0.5', '1']:
+                attendance_state = ui.get_input('Choose new attendance grade')
+            chosen_student.attendance_list[int(attendance_id_)].attendance_state = float(attendance_state)
+        except (IndexError, ValueError) as er:
+            ui.print_error_message('There is no such attendance')
+    except AttributeError:
+        pass
 
 
 def add_new_assignment(codecool):
@@ -19,19 +107,18 @@ def add_new_assignment(codecool):
 
     Returns:
         None
-
     """
 
-    print_add_assignment_title()
-    content = get_assignment_content()
-    year = get_assignment_year()
-    month = get_assignment_month()
-    day = get_assignment_day()
+    assignment_view.print_add_assignment_title()
+    content = assignment_view.get_assignment_content()
+    year = assignment_view.get_assignment_year()
+    month = assignment_view.get_assignment_month()
+    day = assignment_view.get_assignment_day()
     try:
         date = datetime(int(year), int(month), int(day))
-        assignment = Assignment(content, date, Assignment.last_id + 1)
+        assignment = assignment_model.Assignment(content, date, assignment_model.Assignment.last_id + 1)
         codecool.assignments_list.append(assignment)
-        print_assignment_details(assignment)
+        assignment_view.print_assignment_details(assignment)
     except (TypeError, ValueError) as er:
         print('Wrong values!')
 
@@ -68,25 +155,26 @@ def grade_assignment(codecool):
         None
     """
 
-    print_students_list(codecool)
-    student_id = views.ui.get_inputs([''], 'Choose student id')
+    mentor_view.print_students_list(codecool)
+    student_id = ui.get_inputs([''], 'Choose student id')
 
     try:
         student = choose_student_by_id(int(student_id[0]), codecool)
         id_ = 1
         for subm in student.assignment_submissions:
-            print('Submission id:', id_)
-            print_submission(subm)
+            assignment_submission_view.print_submission(id_, subm)
             id_ += 1
-        id_ = input('Choose submission id: ')
+        id_ = ui.get_inputs(['id'], 'Provide submission id:')[0]
 
         try:
             submission_to_mark = choose_submission_by_id(id_, student)
-
-            submission_to_mark.grade = int(input('What is your mark?'))
-
         except ValueError:
-            views.ui.print_error_message('There is no such submission')
+            ui.print_error_message('No such submission')
+
+        try:
+            submission_to_mark.grade = int(ui.get_inputs(['mark'], 'Provide mark')[0])
+        except ValueError:
+            ui.print_error_message('Grade must be integer number')
 
     except ValueError:
         views.ui.print_error_message('There is no such student')
@@ -114,56 +202,7 @@ def choose_submission_by_id(id_, student):
 
 
 def add_student(codecool):
-    """
-    Append student to students_list in codecool object
-
-    Args:
-        codecool (obj): School object - aggregate all users and assignments
-
-    Returns:
-        None
-    """
-
-    student_data = get_new_student_data()
-
-    name = student_data[0]
-    surname = student_data[1]
-    login = student_data[2]
-    password = student_data[3]
-    email = student_data[4]
-    phone = student_data[5]
-
-    id_ = User.last_id + 1
-
-    new_student = Student(name, surname, login, password, email, phone, id_)
-
-    codecool.students_list.append(new_student)
-
-
-def get_user(codecool, users_list):
-    """
-    Asks for user id
-
-    Args:
-        codecool (obj): School object - aggregate all users and assignments
-        users_list (list): list of users
-
-    Returns:
-        User (obj)
-    """
-
-    possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        print_students_list(codecool)
-        chosen_user_id = get_id()
-    chosen_user_id = int(chosen_user_id)
-
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
-
-    return chosen_user
+    user_controller.add_user(codecool, 'student')
 
 
 def get_student(codecool):
@@ -177,7 +216,7 @@ def get_student(codecool):
         Student (obj)
     """
 
-    return get_user(codecool, codecool.students_list)
+    return school_controller.get_user(codecool, codecool.students_list)
 
 
 def remove_student(codecool):
@@ -206,7 +245,23 @@ def edit_student(codecool):
         None
     """
     student_to_change = get_student(codecool)
-    controllers.user_controller.start_controller(student_to_change)
+    user_controller.start_controller(student_to_change)
+
+
+def print_student_details(codecool):
+    """
+    Ask for student id, then print student details
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    chosen_student = get_student(codecool)
+    if chosen_student:
+        manager_view.print_student(chosen_student)
 
 
 def start_controller(codecool, mentor):
@@ -223,18 +278,30 @@ def start_controller(codecool, mentor):
 
     choice = ''
     while choice != '0':
-        print_mentor_menu()
-        choice = get_choice()
+        os.system('clear')
+        user_view.display_user_info(mentor)
+        mentor_view.print_mentor_menu()
+        choice = mentor_view.get_choice()
 
         if choice == '1':
-            print_students_list(codecool)
+            mentor_view.print_students_list(codecool)
         elif choice == '2':
-            add_new_assignment(codecool)
+            print_student_details(codecool)
         elif choice == '3':
-            grade_assignment(codecool)
+            add_new_assignment(codecool)
         elif choice == '4':
-            add_student(codecool)
+            grade_assignment(codecool)
         elif choice == '5':
-            remove_student(codecool)
+            add_student(codecool)
         elif choice == '6':
+            remove_student(codecool)
+        elif choice == '7':
             edit_student(codecool)
+        elif choice == '8':
+            check_today_attendance(codecool)
+        elif choice == '9':
+            change_chosen_attendance(codecool)
+        elif choice == '10':
+            mail_controller.start_controller(codecool, mentor)
+
+        input('Press enter')

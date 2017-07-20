@@ -1,7 +1,16 @@
-from views.ui import print_error_message
-from views.manager_view import *
-from models.mentor_model import Mentor
-from models.user_model import User
+from controllers import user_controller
+from controllers import school_controller
+from controllers import mail_controller
+
+from models import mentor_model
+from models import user_model
+
+from views import user_view
+from views import manager_view
+from views import ui
+
+import utilities
+import os
 
 
 def start_controller(school, manager):
@@ -18,11 +27,13 @@ def start_controller(school, manager):
 
     choice = ''
     while choice != '0':
-        print_manager_menu()
-        choice = get_choice()
+        os.system('clear')
+        user_view.display_user_info(manager)
+        manager_view.print_manager_menu()
+        choice = manager_view.get_choice()
 
         if choice == '1':
-            list_users(school.mentors_list)
+            manager_view.list_users(school.mentors_list)
 
         elif choice == '2':
             view_mentor_details(school)
@@ -34,36 +45,18 @@ def start_controller(school, manager):
             remove_mentor(school)
 
         elif choice == '5':
-            list_all_students(school.students_list)
+            edit_mentor(school)
 
         elif choice == '6':
+            manager_view.list_all_students(school.students_list)
+
+        elif choice == '7':
             view_student_details(school)
 
+        elif choice == '8':
+            mail_controller.start_controller(school, manager)
 
-def get_user(school, users_list):
-    """
-    Ask user for id
-
-    Args:
-        school (obj): school object - aggregate all users and assignments
-        user_list (list): in this list user will be searched
-
-    Returns:
-        User object
-    """
-
-    possible_ids = [str(user.id_) for user in users_list]
-    chosen_user_id = ''
-    while chosen_user_id not in possible_ids:
-        list_users(users_list)
-        chosen_user_id = get_id()
-    chosen_user_id = int(chosen_user_id)
-
-    for user in users_list:
-        if chosen_user_id == user.id_:
-            chosen_user = user
-
-    return chosen_user
+        input('Press enter')
 
 
 def get_mentor(school):
@@ -75,7 +68,7 @@ def get_mentor(school):
         Mentor object
     """
 
-    return get_user(school, school.mentors_list)
+    return school_controller.get_user(school, school.mentors_list)
 
 
 def get_student(school):
@@ -87,7 +80,7 @@ def get_student(school):
         Student object
     """
 
-    return get_user(school, school.students_list)
+    return school_controller.get_user(school, school.students_list)
 
 
 def view_mentor_details(school):
@@ -101,13 +94,13 @@ def view_mentor_details(school):
     """
 
     chosen_mentor = get_mentor(school)
-    print_mentor(chosen_mentor)
+    if chosen_mentor:
+        manager_view.print_mentor(chosen_mentor)
 
 
 def add_mentor(school):
     """
-    Appends mentors_list in school object by new created mentor object
-    Prints error message if login is not unique
+    Adds mentor
 
     Args:
         school (obj): school object - aggregate all users and assignments
@@ -116,25 +109,7 @@ def add_mentor(school):
         None
     """
 
-    mentor_data = get_new_mentor_data()
-
-    name = mentor_data[0]
-    surname = mentor_data[1]
-    login = mentor_data[2]
-    password = mentor_data[3]
-    email = mentor_data[4]
-    phone = mentor_data[5]
-
-    id_ = User.last_id + 1
-
-    users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
-    users_logins = [user.login for user in users]
-
-    if login not in users_logins:
-        new_mentor = Mentor(name, surname, login, password, email, phone, id_)
-        school.mentors_list.append(new_mentor)
-    else:
-        print_error_message('login already in use')
+    user_controller.add_user(school, 'mentor')
 
 
 def remove_mentor(school):
@@ -154,7 +129,7 @@ def remove_mentor(school):
 
 def view_student_details(school):
     """
-    Ask for mentor id, then print mentor details
+    Ask for student id, then print student details
 
     Args:
         school (obj): school object - aggregate all users and assignments
@@ -164,4 +139,20 @@ def view_student_details(school):
     """
 
     chosen_student = get_student(school)
-    print_student(chosen_student)
+    if chosen_student:
+        manager_view.print_student(chosen_student)
+
+
+def edit_mentor(school):
+    """
+    Changes mentor data
+
+    Args:
+        school (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
+    mentor_to_change = get_mentor(school)
+    user_controller.start_controller(mentor_to_change)

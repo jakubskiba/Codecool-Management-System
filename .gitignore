@@ -1,4 +1,8 @@
 models/__pycache__/user_model.cpython-35.pyc
 *.pyc
-w
+*/*.pyc
+*/*/*.pyc
 moj_maly_main.py
+models/__pycache__/user_model.cpython-35.pyc
+do_poprawy.md
+log/
