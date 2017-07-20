@@ -67,7 +67,7 @@ def get_input(msg):
 
 def print_student_attendances(student):
     table = []
-    id_ = 1
+    id_ = 0
     for attendance in student.attendance_list:
         table.append([str(id_), str(attendance.date.date()), str(attendance.attendance_state)])
         id_ += 1

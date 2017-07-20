@@ -91,7 +91,7 @@ def change_chosen_attendance(codecool):
             attendance_state = ''
             while attendance_state not in ['0', '0.5', '1']:
                 attendance_state = ui.get_input('Choose new attendance grade')
-            chosen_student.attendance_list[int(attendance_id_)-1].attendance_state = float(attendance_state)
+            chosen_student.attendance_list[int(attendance_id_)].attendance_state = float(attendance_state)
         except (IndexError, ValueError) as er:
             ui.print_error_message('There is no such attendance')
     except AttributeError:
