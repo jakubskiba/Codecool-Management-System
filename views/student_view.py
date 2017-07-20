@@ -21,7 +21,8 @@ def get_choice():
 
 def print_all_submissions(assignment_submissions):
     for submission in assignment_submissions:
-        assignment_submission_view.print_submission(submission)
+        id_ = submission.assignment.assignment_id
+        assignment_submission_view.print_submission(id_, submission)
         print()
 
 
