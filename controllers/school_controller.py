@@ -64,9 +64,7 @@ def start_controller():
         try:
             database.load_files(codecool)
         except (FileNotFoundError, IndexError, ValueError) as er:
-            ui.print_error_message('Database files are not complete! Restore previous version of csv files.')
-            ui.get_input('Press ENTER to exit the program!')
-            sys.exit(0)
+            raise ('Database files are not complete! Restore previous version of csv files.')
 
         user = log_in(codecool)
         if type(user) is manager_model.Manager:
