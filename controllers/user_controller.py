@@ -32,20 +32,21 @@ def updater(user, which_data):
         which_data (str)
     """
 
-    data_dict = {1: 'email', 2: 'login', 3: 'name', 4: 'password', 5: 'phone', 6: 'surname'}
-
     if which_data == '1':
-        user.email = user_view.get_updated_string(data_dict[1])
+        user_view.display_old_data(user.email)
+        user.email = update_data('email', is_email, user.email)
     elif which_data == '2':
-        user.login = user_view.get_updated_string(data_dict[2])
+        user_view.display_old_data(user.name)
+        user.name = update_data('name', is_name_alpha, user.name)
     elif which_data == '3':
-        user.name = user_view.get_updated_string(data_dict[3])
+        user_view.display_old_data(user.password)
+        user.password = update_data('password', is_password_sufficient, user.password)
     elif which_data == '4':
-        user.password = user_view.get_updated_string(data_dict[4])
+        user_view.display_old_data(user.phone)
+        user.phone = update_data('phone', is_phone_number, user.phone)
     elif which_data == '5':
-        user.phone = user_view.get_updated_string(data_dict[5])
-    elif which_data == '6':
-        user.surname = user_view.get_updated_string(data_dict[6])
+        user_view.display_old_data(user.surname)
+        user.surname = update_data('surname', is_name_alpha, user.surname)
 
 
 def add_user(school, kind='student'):
@@ -60,43 +61,70 @@ def add_user(school, kind='student'):
     Returns:
         None
     """
-    
-    name = create_data_for_user('name', is_name_alpha, school)
-    surname = create_data_for_user('surname', is_name_alpha, school)
-    login = create_data_for_user('login', is_login_available, school)
-    password = create_data_for_user('password', is_password_sufficient, school)
-    email = create_data_for_user('email', is_email, school)
-    phone = create_data_for_user('phone', is_phone_number, school)
 
+    try:
+        name = create_data_for_user('name', is_name_alpha)
+        surname = create_data_for_user('surname', is_name_alpha)
+        login = create_login(school)
+        password = create_data_for_user('password', is_password_sufficient)
+        email = create_data_for_user('email', is_email)
+        phone = create_data_for_user('phone', is_phone_number)
 
+        id_ = user_model.User.last_id + 1
 
+        password = utilities.hash_password(password)
 
-    id_ = user_model.User.last_id + 1
-
-    password = utilities.hash_password(password)
-
-    if kind == 'mentor':
-        users_list = school.mentors_list
-    else:
-        users_list = school.students_list
-
-    if is_login_available(login, school):
-        if kind == 'student':
-            new_user = student_model.Student(name, surname, login, password, email, phone, id_)
+        if kind == 'mentor':
+            users_list = school.mentors_list
         else:
-            new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
-        users_list.append(new_user)
+            users_list = school.students_list
+
+        if is_login_available(login, school):
+            if kind == 'student':
+                new_user = student_model.Student(name, surname, login, password, email, phone, id_)
+            else:
+                new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
+            users_list.append(new_user)
+
+    except ValueError:
+        ui.print_error_message('Adding user was interrupted')
 
     
-def create_data_for_user(data_type, condition, school):
+def create_data_for_user(data_type, condition):
 
         new_data = user_view.get_new_user_data(data_type)[0]
 
-        while not condition(new_data, school):
+        while not condition(new_data):
             if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
                 new_data = user_view.get_new_user_data(data_type)[0]
             else:
-                return None
+                raise ValueError
+
+        return new_data
+
+
+def create_login(school):
+
+    new_login = user_view.get_new_user_data('login')[0]
+
+    while not is_login_available(new_login, school):
+        if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
+                new_data = user_view.get_new_user_data('login')[0]
+        else:
+            raise ValueError
+
+        return new_data
+
+
+def update_data(data_type, condition, old_data):
+
+        new_data = user_view.get_new_user_data(data_type)[0]
+
+        while not condition(new_data):
+            if user_view.get_yn_answer('Do you want to keep update?') == 'y':
+                new_data = user_view.get_new_user_data(data_type)[0]
+            else:
+                return old_data
 
         return new_data
 
@@ -113,7 +141,7 @@ def is_login_available(login, school):
         return False
 
 
-def is_name_alpha(name, school):
+def is_name_alpha(name):
 
     if name.isalpha():
         return True
@@ -122,7 +150,7 @@ def is_name_alpha(name, school):
         return False
 
 
-def is_password_sufficient(password, school):
+def is_password_sufficient(password):
     
     if len(password) < 8:
         ui.print_error_message('password must be at least 8 characters long')
@@ -131,7 +159,7 @@ def is_password_sufficient(password, school):
     return True
 
 
-def is_email(email, school):
+def is_email(email):
 
     if re.match(r'(.+)@(.+)\.(.{2,})', email):
         return True
@@ -140,7 +168,7 @@ def is_email(email, school):
         return False
 
 
-def is_phone_number(phone, school):
+def is_phone_number(phone):
 
     if re.match(r'\d{9}', phone):
         return True

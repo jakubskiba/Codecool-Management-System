@@ -56,13 +56,6 @@ def print_all_assignments(codecool):
         print()
 
 
-# def get_new_student_data():
-#     student_attributes_names = ['name', 'surname', 'login', 'password', 'email', 'phone']
-#     data = views.ui.get_inputs(student_attributes_names, 'Provide data for new student')
-
-#     return data
-
-
 def get_id():
     return ui.get_inputs(['id:'], 'Provide id')[0]
 
