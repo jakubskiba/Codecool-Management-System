@@ -17,6 +17,7 @@ from datetime import datetime
 
 from controllers import user_controller
 from controllers import school_controller
+from controllers import mail_controller
 
 import utilities
 
@@ -247,6 +248,16 @@ def edit_student(codecool):
 
 
 def print_student_details(codecool):
+    """
+    Ask for student id, then print student details
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     chosen_student = get_student(codecool)
     if chosen_student:
         manager_view.print_student(chosen_student)
@@ -289,5 +300,7 @@ def start_controller(codecool, mentor):
             check_today_attendance(codecool)
         elif choice == '9':
             change_chosen_attendance(codecool)
+        elif choice == '10':
+            mail_controller.start_controller(codecool, mentor)
 
         input('Press enter')

@@ -1,7 +1,10 @@
 import os
 
 from views import administrator_view
+from views import mail_view
 from views import user_view
+
+from controllers import mail_controller
 
 
 def start_controller(school, administrator):
@@ -25,5 +28,8 @@ def start_controller(school, administrator):
 
         if choice == '1':
             administrator_view.print_students_list(school)
+
+        if choice == '2':
+            mail_controller.start_controller(school, administrator)
 
         input('Press enter')

@@ -5,3 +5,4 @@ class School:
         self.mentors_list = []
         self.students_list = []
         self.assignments_list = []
+        self.mails = []

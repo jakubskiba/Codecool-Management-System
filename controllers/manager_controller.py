@@ -1,5 +1,6 @@
 from controllers import user_controller
 from controllers import school_controller
+from controllers import mail_controller
 
 from models import mentor_model
 from models import user_model
@@ -52,6 +53,9 @@ def start_controller(school, manager):
         elif choice == '7':
             view_student_details(school)
 
+        elif choice == '8':
+            mail_controller.start_controller(school, manager)
+
         input('Press enter')
 
 
@@ -95,6 +99,15 @@ def view_mentor_details(school):
 
 
 def add_mentor(school):
+    """
+    Adds mentor
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
 
     user_controller.add_user(school, 'mentor')
 
@@ -116,7 +129,7 @@ def remove_mentor(school):
 
 def view_student_details(school):
     """
-    Ask for mentor id, then print mentor details
+    Ask for student id, then print student details
 
     Args:
         school (obj): school object - aggregate all users and assignments

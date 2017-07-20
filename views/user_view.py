@@ -72,3 +72,7 @@ def get_new_user_data(data_type):
 def display_old_data(data):
 
     ui.print_message('Old data: {}'.format(data))
+
+
+def display_user_short(user):
+    print('Id {}, Name: {} {}'.format(user.id_, user.name, user.surname))
