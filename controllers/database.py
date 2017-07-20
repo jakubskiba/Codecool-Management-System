@@ -19,7 +19,8 @@ def make_data_backup():
         None
     """
 
-    csv_files = ['administrator', 'assignment', 'assignment_submission', 'attendance', 'manager', 'mentor', 'student']
+    csv_files = ['administrator', 'assignment', 'assignment_submission',
+                 'attendance', 'manager', 'mentor', 'student', 'mails']
     current_date = datetime.today()
     prefix = str(current_date).split(' ')[0]
 
