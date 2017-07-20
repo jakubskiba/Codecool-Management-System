@@ -79,12 +79,11 @@ def add_user(school, kind='student'):
         else:
             users_list = school.students_list
 
-        if is_login_available(login, school):
-            if kind == 'student':
-                new_user = student_model.Student(name, surname, login, password, email, phone, id_)
-            else:
-                new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
-            users_list.append(new_user)
+        if kind == 'student':
+            new_user = student_model.Student(name, surname, login, password, email, phone, id_)
+        else:
+            new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
+        users_list.append(new_user)
 
     except ValueError:
         ui.print_error_message('Adding user was interrupted')
@@ -109,11 +108,11 @@ def create_login(school):
 
     while not is_login_available(new_login, school):
         if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
-                new_data = user_view.get_new_user_data('login')[0]
+                new_login = user_view.get_new_user_data('login')[0]
         else:
             raise ValueError
 
-        return new_data
+    return new_login
 
 
 def update_data(data_type, condition, old_data):
@@ -128,12 +127,12 @@ def update_data(data_type, condition, old_data):
 
         return new_data
 
+            #  conditions
 
 def is_login_available(login, school):
 
     users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
     users_logins = [user.login for user in users]
-
     if login and login not in users_logins:
         return True
     else:

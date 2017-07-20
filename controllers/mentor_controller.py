@@ -243,7 +243,7 @@ def edit_student(codecool):
         None
     """
     student_to_change = get_student(codecool)
-    school_controller.start_controller(student_to_change)
+    user_controller.start_controller(student_to_change)
 
 
 def print_student_details(codecool):
