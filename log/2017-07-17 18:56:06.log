@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "main.py", line 14, in <module>
+    main()
+  File "main.py", line 9, in main
+    school_controller.start_controller()
+  File "/home/kyubu/Documents/python_projects/ccms/python-ccms-20171-mccaffee/controllers/school_controller.py", line 375, in start_controller
+    user = log_in(codecool)
+  File "/home/kyubu/Documents/python_projects/ccms/python-ccms-20171-mccaffee/controllers/school_controller.py", line 236, in log_in
+    login = get_login()
+  File "/home/kyubu/Documents/python_projects/ccms/python-ccms-20171-mccaffee/views/school_view.py", line 10, in get_login
+    return input('Input your login: ')
+KeyboardInterrupt: 
