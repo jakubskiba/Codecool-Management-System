@@ -1,7 +1,7 @@
-from models.user_model import User
+from models import user_model
 
 
-class Student(User):
+class Student(user_model.User):
     """
     Attributes:
         name (str)
@@ -21,3 +21,18 @@ class Student(User):
         self.assignment_submissions = []
         self.attendance_list = []
 
+    def get_attendance(self):
+        """
+        Computes attendance percent based on attendance list
+
+        Return (float): percentage of attendance
+        """
+
+        if len(self.attendance_list):
+            attendance_sum = 0
+            for attendance in self.attendance_list:
+                attendance_sum += attendance.attendance_state
+            return attendance_sum/len(self.attendance_list) * 100
+
+        else:
+            return 100.0

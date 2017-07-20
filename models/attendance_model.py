@@ -1,4 +1,4 @@
-from models.student_model import Student
+from models import student_model
 from datetime import datetime
 
 
@@ -29,7 +29,7 @@ class Attendance():
 
         self.attendance_state = float(attendance_state)
 
-        if not isinstance(student, Student):
+        if not isinstance(student, student_model.Student):
             raise TypeError
         else:
             self.student = student

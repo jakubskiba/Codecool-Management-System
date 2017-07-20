@@ -1,4 +1,4 @@
-from views.ui import print_menu
+from views import ui
 
 
 def grades(sub):
@@ -19,8 +19,10 @@ def is_on_time(sub):
         return 'delayed'
 
 
-def print_submission(sub):
+def print_submission(id_, sub):
     '''prints Assignment submission'''
+
+    print('Submission id:', id_)
     print('Assignment id: {}/{}'.format(sub.assignment.assignment_id, sub.assignment.deadline))
     print('{}: {} / {}'.format(sub.student.name, sub.content, sub.date_of_submission))
     print(is_on_time(sub).rjust(30))
@@ -34,4 +36,4 @@ def get_number():
 
 
 def print_what_to_do():
-    print_menu('Would you like to submit assignment?', ['Show submission'], 'exit')
+    ui.print_menu('Would you like to submit assignment?', ['Show submission'], 'exit')

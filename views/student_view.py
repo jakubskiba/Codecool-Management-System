@@ -1,43 +1,42 @@
-from views.ui import print_menu
-from views.ui import get_inputs
-from views.assignment_submission_view import print_submission
-from views.assignment_view import print_assignment_details
+from views import ui
+from views import assignment_submission_view
+from views import assignment_view
 
 
 def print_student_menu():
     title = 'Student Menu'
-    options = ['Submit assignment', 'View available assignments', 'View my grades']
+    options = ['Submit assignment', 'View available assignments', 'View my grades', 'Mail']
 
-    print_menu(title, options, 'Exit')
+    ui.print_menu(title, options, 'Exit')
 
 
 def get_choice():
-    possible_choices = ['0', '1', '2', '3']
+    possible_choices = ['0', '1', '2', '3', '4']
     choice = ''
     while choice not in possible_choices:
-        choice = get_inputs(['option:'], 'Choose option')[0]
+        choice = ui.get_inputs(['option:'], 'Choose option')[0]
 
     return choice
 
 
 def print_all_submissions(assignment_submissions):
     for submission in assignment_submissions:
-        print_submission(submission)
+        assignment_submission_view.print_submission(submission)
         print()
 
 
 def print_all_assignments(assignments_list):
     for assignment in assignments_list:
-        print_assignment_details(assignment)
+        assignment_view.print_assignment_details(assignment)
         print()
 
 
 def get_assignment_id():
-    return get_inputs(['assignment id:'], 'Provide assignment id')[0]
+    return ui.get_inputs(['assignment id:'], 'Provide assignment id')[0]
 
 
 def get_assignment_submission_content():
-    return get_inputs(['content:'], 'Provide content')[0]
+    return ui.get_inputs(['content:'], 'Provide content')[0]
 
 
 def print_student_details(student):
@@ -57,4 +56,5 @@ def print_student_details(student):
     print('Full name:', student.name, student.surname)
     print('E-mail:', student.email)
     print('Phone:', student.phone)
+    print('Attendance:', str(student.get_attendance()), '%')
     print(ornament)
