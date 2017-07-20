@@ -34,7 +34,7 @@ def show_incoming_mail(codecool, user):
 
     idx = mail_view.get_mail_idx(inbox)
 
-    if idx.isdigit() and int(idx) <= len(inbox):
+    if idx.isdigit() and int(idx) < len(inbox):
         os.system('clear')
         idx = int(idx)
         mail = inbox[idx]
