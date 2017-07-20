@@ -1,5 +1,6 @@
 from views import ui
 from views import assignment_view
+from views import attendance_view
 
 
 def print_mentor_details(mentor):
@@ -35,13 +36,13 @@ def print_students_list(codecool):
 def print_mentor_menu():
     title = 'Mentor Menu'
     options = ['List students', 'Show student details', 'Add assignments', 'Grade assignment', 'Add student',
-               'Remove student', 'Edit student', 'Check today attendance']
+               'Remove student', 'Edit student', 'Check today attendance', 'Change chosen attendance state']
 
     ui.print_menu(title, options, 'Exit')
 
 
 def get_choice():
-    possible_choices = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
+    possible_choices = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     choice = ''
     while choice not in possible_choices:
         choice = ui.get_inputs(['option:'], 'Choose option')[0]
@@ -69,3 +70,13 @@ def get_id():
 def get_input(msg):
     a = input(msg)
     return a
+
+
+def print_student_attendances(student):
+    table = []
+    id_ = 1
+    for attendance in student.attendance_list:
+        table.append([str(id_), str(attendance.date.date()), str(attendance.attendance_state)])
+        id_ += 1
+    headers = ['id', 'date', 'grade']
+    ui.print_table(table, headers)
