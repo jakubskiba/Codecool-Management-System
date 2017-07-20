@@ -8,6 +8,17 @@ from datetime import datetime
 
 
 def start_controller(codecool, user):
+    """
+    Switches between options
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+        user (obj): Student object
+
+    Returns:
+        None
+    """
+
     choice = ''
     while choice != '0':
         os.system('clear')
@@ -29,6 +40,17 @@ def start_controller(codecool, user):
 
 
 def show_incoming_mail(codecool, user):
+    """
+    Prints inbox of given user
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+        user (obj): Student object
+
+    Returns:
+        None
+    """
+
     inbox = get_mails(codecool, user, 'in')
     mail_view.print_mail_list(inbox)
 
@@ -43,6 +65,17 @@ def show_incoming_mail(codecool, user):
 
 
 def show_outcoming_mail(codecool, user):
+    """
+    Prints outbox of given user
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+        user (obj): Student object
+
+    Returns:
+        None
+    """
+
     outbox = get_mails(codecool, user, 'out')
     mail_view.print_mail_list(outbox)
 
@@ -56,6 +89,20 @@ def show_outcoming_mail(codecool, user):
 
 
 def get_mails(codecool, user, category):
+    """
+    Searches for mails fiting given data
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+        user (obj): Student object
+        category (str): kind of mail
+            in - incoming
+            out - outcoming
+
+    Returns:
+        list of Mail object
+    """
+
     mails = []
     for mail in codecool.mails:
 
@@ -68,6 +115,16 @@ def get_mails(codecool, user, category):
 
 
 def get_receiver(codecool):
+    """
+    Ask user for mail receiver
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+
+    Returns:
+        (obj): receivers User object
+    """
+
     users = codecool.managers_list + codecool.administrators_list + codecool.mentors_list + codecool.students_list
     for user in users:
         user_view.display_user_short(user)
@@ -84,6 +141,16 @@ def get_receiver(codecool):
 
 
 def write_email(codecool, current_user):
+    """
+    Creates new message
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+        current_user (obj): Student object
+
+    Returns:
+        None
+    """
     date = datetime.now()
     sender = current_user
 

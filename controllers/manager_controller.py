@@ -99,6 +99,15 @@ def view_mentor_details(school):
 
 
 def add_mentor(school):
+    """
+    Adds mentor
+
+    Args:
+        school (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
 
     user_controller.add_user(school, 'mentor')
 
@@ -120,7 +129,7 @@ def remove_mentor(school):
 
 def view_student_details(school):
     """
-    Ask for mentor id, then print mentor details
+    Ask for student id, then print student details
 
     Args:
         school (obj): school object - aggregate all users and assignments

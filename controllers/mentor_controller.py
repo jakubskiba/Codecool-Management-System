@@ -248,6 +248,16 @@ def edit_student(codecool):
 
 
 def print_student_details(codecool):
+    """
+    Ask for student id, then print student details
+
+    Args:
+        codecool (obj): school object - aggregate all users and assignments
+
+    Returns:
+        None
+    """
+
     chosen_student = get_student(codecool)
     if chosen_student:
         manager_view.print_student(chosen_student)

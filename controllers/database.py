@@ -183,7 +183,13 @@ def load_assignment_submission(codecool):
 
 def load_mails(codecool):
     """
+    Reads data from csv file to mail classes
 
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
     """
 
     with open('csv/mails.csv') as datafile:
@@ -372,7 +378,13 @@ def save_assignment_submission(codecool):
 
 def save_mails(codecool):
     """
+    Saves data from each object in assignment stubmissions list to csv file
 
+    Args:
+        codecool (obj): School object - aggregate all users and assignments
+
+    Returns:
+        None
     """
 
     data_to_save = []
@@ -382,7 +394,7 @@ def save_mails(codecool):
         sender = str(mail.sender.id_)
         receiver = str(mail.receiver.id_)
         topic = utilities.hash(mail.topic)
-        message =  utilities.hash(mail.message)
+        message = utilities.hash(mail.message)
         data_to_save.append([date, state, sender, receiver, topic, message])
 
     data_to_save = ['|'.join(line) for line in data_to_save]
