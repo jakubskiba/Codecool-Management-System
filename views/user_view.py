@@ -50,3 +50,7 @@ def get_new_user_data():
     data = ui.get_inputs(user_attributes_names, 'Provide data for user')
 
     return data
+
+
+def display_user_short(user):
+    print('Id {}, Name: {} {}'.format(user.id_, user.name, user.surname))
