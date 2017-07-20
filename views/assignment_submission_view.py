@@ -19,8 +19,10 @@ def is_on_time(sub):
         return 'delayed'
 
 
-def print_submission(sub):
+def print_submission(id_, sub):
     '''prints Assignment submission'''
+
+    print('Submission id:', id_)
     print('Assignment id: {}/{}'.format(sub.assignment.assignment_id, sub.assignment.deadline))
     print('{}: {} / {}'.format(sub.student.name, sub.content, sub.date_of_submission))
     print(is_on_time(sub).rjust(30))

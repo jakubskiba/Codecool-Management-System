@@ -162,18 +162,19 @@ def grade_assignment(codecool):
         student = choose_student_by_id(int(student_id[0]), codecool)
         id_ = 1
         for subm in student.assignment_submissions:
-            print('Submission id:', id_)
-            assignment_submission_view.print_submission(subm)
+            assignment_submission_view.print_submission(id_, subm)
             id_ += 1
-        id_ = input('Choose submission id: ')
+        id_ = ui.get_inputs(['id'], 'Provide submission id:')[0]
 
         try:
             submission_to_mark = choose_submission_by_id(id_, student)
-
-            submission_to_mark.grade = int(input('What is your mark?'))
-
         except ValueError:
-            ui.print_error_message('There is no such submission')
+            ui.print_error_message('No such submission')
+
+        try:
+            submission_to_mark.grade = int(ui.get_inputs(['mark'], 'Provide mark')[0])
+        except ValueError:
+            ui.print_error_message('Grade must be integer number')
 
     except ValueError:
         views.ui.print_error_message('There is no such student')
