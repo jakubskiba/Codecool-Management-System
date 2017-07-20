@@ -4,6 +4,7 @@ from views import user_view
 from views import student_view
 from views import ui
 from models import assignment_submission_model
+from controllers import mail_controller
 from datetime import datetime
 
 
@@ -32,6 +33,8 @@ def start_controller(school, student):
             list_assignments(school)
         elif choice == '3':
             get_assignment_submissions(student)
+        elif choice == '4':
+            mail_controller.start_controller(school, student)
 
         input('Press enter')
 
