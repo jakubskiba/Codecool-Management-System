@@ -23,7 +23,7 @@ def get_yn_answer(question):
 
     answer = input(question)
     while answer != 'n' and answer != 'y':
-        print('answer must be y or n')
+        ui.print_error_message('answer must be y or n')
         answer = input(question)
 
     return answer
