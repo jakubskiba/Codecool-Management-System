@@ -4,6 +4,7 @@ from models import mentor_model
 from views import user_view
 from views import ui
 import utilities
+import re
 
 
 def start_controller(user):
@@ -59,15 +60,31 @@ def add_user(school, kind='student'):
     Returns:
         None
     """
+    
+    name = user_view.get_new_user_data('name')[0]
+    while not is_name_alpha(name):
+        name = user_view.get_new_user_data('name')[0]
 
-    user_data = user_view.get_new_user_data()
+    surname = user_view.get_new_user_data('surname')[0]
+    while not is_name_alpha(surname):
+        surname = user_view.get_new_user_data('surname')[0]
 
-    name = user_data[0]
-    surname = user_data[1]
-    login = user_data[2]
-    password = user_data[3]
-    email = user_data[4]
-    phone = user_data[5]
+    login = user_view.get_new_user_data('login')[0]
+    while not is_login_available(login, school):
+        login = user_view.get_new_user_data('login')[0]
+
+    password = user_view.get_new_user_data('password')[0]
+    while not is_password_sufficient(password):
+        password = user_view.get_new_user_data('password')[0]
+
+    email = user_view.get_new_user_data('email')[0]
+    while not is_email(email):
+        email = user_view.get_new_user_data('email')[0]
+
+    phone = user_view.get_new_user_data('phone')[0]
+    while not is_phone_number(phone):
+        email = user_view.get_new_user_data('phone')[0]
+
 
     id_ = user_model.User.last_id + 1
 
@@ -78,27 +95,69 @@ def add_user(school, kind='student'):
     else:
         users_list = school.students_list
 
-    if is_login_available():
+    if is_login_available(school, login):
         if kind == 'student':
             new_user = student_model.Student(name, surname, login, password, email, phone, id_)
         else:
             new_user = mentor_model.Mentor(name, surname, login, password, email, phone, id_)
         users_list.append(new_user)
 
-
-def check_new_data(data):
     
-    if not data[0].isalpha() or not data[1].isalpha():  # checks if name or surname are alphabetical and not empty
-        raise TypeError
-    
+def create_data_for_user(title, condition, school):
 
-def is_login_available(school, login):
+        new_data = user_view.get_new_user_data(title)[0]
+        while not condition(title, school):
+            if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
+                new_data = user_view.get_new_user_data(title)[0]
+            else:
+                return None
+
+        return new_data
+
+
+def is_login_available(login, school):
 
     users = school.managers_list + school.administrators_list + school.mentors_list + school.students_list
     users_logins = [user.login for user in users]
 
-    if login not in users_logins:
+    if login and login not in users_logins:
         return True
     else:
         ui.print_error_message('login already in use')
+        return False
+
+
+def is_name_alpha(name):
+
+    if name.isalpha():
+        return True
+    else:
+        ui.print_error_message('Name musn\'t contain numbers nor be empty')
+        return False
+
+
+def is_password_sufficient(password):
+    
+    if len(password) < 8:
+        ui.print_error_message('password must be at least 8 characters long')
+        return False
+
+    return True
+
+
+def is_email(email):
+
+    if re.match(r'(.+)@(.+)\.(.{2,})', email):
+        return True
+    else:
+        ui.print_error_message('wrong email')
+        return False
+
+
+def is_phone_number(phone):
+
+    if re.match(r'\d{9}', phone):
+        return True
+    else:
+        ui.print_error_message('phone number is 9 digit number')
         return False
