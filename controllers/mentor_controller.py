@@ -83,7 +83,7 @@ def change_chosen_attendance(codecool):
         try:
             attendance_id_ = ui.get_input('Choose attendance id')
             ui.print_message(
-                'current state is: ' + str(chosen_student.attendance_list[int(attendance_id_)-1].attendance_state))
+                'current state is: ' + str(chosen_student.attendance_list[int(attendance_id_)].attendance_state))
             ui.print_message('''Possible attendance grades:
             0 - absent
             0.5 - late
