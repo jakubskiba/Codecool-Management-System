@@ -1,5 +1,6 @@
 from controllers import user_controller
 from controllers import school_controller
+from controllers import mail_controller
 
 from models import mentor_model
 from models import user_model
@@ -51,6 +52,9 @@ def start_controller(school, manager):
 
         elif choice == '7':
             view_student_details(school)
+
+        elif choice == '8':
+            mail_controller.start_controller(school, manager)
 
         input('Press enter')
 

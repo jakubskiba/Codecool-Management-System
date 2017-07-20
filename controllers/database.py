@@ -7,6 +7,8 @@ from models import student_model
 from models import assignment_model
 from models import assignment_submission_model
 from models import attendance_model
+from models import mail_model
+import utilities
 
 
 def make_data_backup():
@@ -17,7 +19,8 @@ def make_data_backup():
         None
     """
 
-    csv_files = ['administrator', 'assignment', 'assignment_submission', 'attendance', 'manager', 'mentor', 'student']
+    csv_files = ['administrator', 'assignment', 'assignment_submission',
+                 'attendance', 'manager', 'mentor', 'student', 'mails']
     current_date = datetime.today()
     prefix = str(current_date).split(' ')[0]
 
@@ -178,6 +181,34 @@ def load_assignment_submission(codecool):
         student.assignment_submissions.append(assignment_submission)
 
 
+def load_mails(codecool):
+    """
+
+    """
+
+    with open('csv/mails.csv') as datafile:
+        content = datafile.readlines()
+
+    content = [line.strip() for line in content]
+    content = [line.split('|') for line in content]
+    content = [[line[0].split('-'), line[1], int(line[2]), int(line[3]), line[4], line[5]] for line in content]
+
+    for line in content:
+        mail_date = line[0]
+        mail_date = datetime(int(mail_date[0]), int(mail_date[1]), int(mail_date[2]))
+
+        sender = get_user_by_id(codecool, line[2])
+        receiver = get_user_by_id(codecool, line[3])
+
+        state = line[1]
+
+        topic = utilities.dehash(line[4])
+        message = utilities.dehash(line[5])
+
+        mail = mail_model.Mail(mail_date, sender, receiver, topic, message, state)
+        codecool.mails.append(mail)
+
+
 def get_last_user_id(codecool):
     """
     Searches for user with highest id
@@ -231,6 +262,7 @@ def load_files(codecool):
     load_assignments(codecool)
     load_attendance(codecool)
     load_assignment_submission(codecool)
+    load_mails(codecool)
     user_model.User.last_id = get_last_user_id(codecool)
     assignment_model.Assignment.last_id = get_last_assignment_id(codecool)
     make_data_backup()
@@ -338,6 +370,28 @@ def save_assignment_submission(codecool):
         datafile.write(data_to_save)
 
 
+def save_mails(codecool):
+    """
+
+    """
+
+    data_to_save = []
+    for mail in codecool.mails:
+        date = str(mail.date.date())
+        state = mail.state
+        sender = str(mail.sender.id_)
+        receiver = str(mail.receiver.id_)
+        topic = utilities.hash(mail.topic)
+        message =  utilities.hash(mail.message)
+        data_to_save.append([date, state, sender, receiver, topic, message])
+
+    data_to_save = ['|'.join(line) for line in data_to_save]
+    data_to_save = '\n'.join(data_to_save)
+
+    with open('csv/mails.csv', 'w') as datafile:
+        datafile.write(data_to_save)
+
+
 def save_files(codecool):
     """
     Saves data to files
@@ -353,3 +407,4 @@ def save_files(codecool):
     save_assignments(codecool)
     save_attendance(codecool)
     save_assignment_submission(codecool)
+    save_mails(codecool)

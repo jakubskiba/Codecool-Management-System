@@ -17,6 +17,7 @@ from datetime import datetime
 
 from controllers import user_controller
 from controllers import school_controller
+from controllers import mail_controller
 
 import utilities
 
@@ -289,5 +290,7 @@ def start_controller(codecool, mentor):
             check_today_attendance(codecool)
         elif choice == '9':
             change_chosen_attendance(codecool)
+        elif choice == '10':
+            mail_controller.start_controller(codecool, mentor)
 
         input('Press enter')
