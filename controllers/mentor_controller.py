@@ -231,7 +231,8 @@ def remove_student(codecool):
     """
 
     student_to_remove = get_student(codecool)
-    codecool.students_list.remove(student_to_remove)
+    if student_to_remove in codecool.students_list:
+        codecool.students_list.remove(student_to_remove)
 
 
 def edit_student(codecool):
