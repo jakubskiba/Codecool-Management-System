@@ -124,7 +124,8 @@ def remove_mentor(school):
     """
 
     mentor_to_remove = get_mentor(school)
-    school.mentors_list.remove(mentor_to_remove)
+    if mentor_to_remove in school.mentors_list:
+        school.mentors_list.remove(mentor_to_remove)
 
 
 def view_student_details(school):
