@@ -94,7 +94,7 @@ def create_data_for_user(data_type, condition):
         new_data = user_view.get_new_user_data(data_type)[0]
 
         while not condition(new_data):
-            if user_view.get_yn_answer('Do you want to keep adding user [y/n]?') == 'y':
+            if user_view.get_yn_answer('Do you want to keep adding user [y/n]? ') == 'y':
                 new_data = user_view.get_new_user_data(data_type)[0]
             else:
                 raise ValueError
