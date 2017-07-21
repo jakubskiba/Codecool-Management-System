@@ -177,7 +177,7 @@ def grade_assignment(codecool):
             ui.print_error_message('Grade must be integer number')
 
     except ValueError:
-        views.ui.print_error_message('There is no such student')
+        ui.print_error_message('There is no such student')
 
 
 def choose_submission_by_id(id_, student):
