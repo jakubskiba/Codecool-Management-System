@@ -88,13 +88,13 @@ def add_user(school, kind='student'):
     except ValueError:
         ui.print_error_message('Adding user was interrupted')
 
-    
+
 def create_data_for_user(data_type, condition):
 
         new_data = user_view.get_new_user_data(data_type)[0]
 
         while not condition(new_data):
-            if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
+            if user_view.get_yn_answer('Do you want to keep adding user [y/n]?') == 'y':
                 new_data = user_view.get_new_user_data(data_type)[0]
             else:
                 raise ValueError
@@ -107,7 +107,7 @@ def create_login(school):
     new_login = user_view.get_new_user_data('login')[0]
 
     while not is_login_available(new_login, school):
-        if user_view.get_yn_answer('Do you want to keep adding user?') == 'y':
+        if user_view.get_yn_answer('Do you want to keep adding user [y/n]?') == 'y':
                 new_login = user_view.get_new_user_data('login')[0]
         else:
             raise ValueError
@@ -150,7 +150,7 @@ def is_name_alpha(name):
 
 
 def is_password_sufficient(password):
-    
+
     if len(password) < 8:
         ui.print_error_message('password must be at least 8 characters long')
         return False
